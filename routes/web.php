@@ -34,10 +34,21 @@ Route::get('logout',[authController::class,'logout'])->name('logout');
 Route::middleware(['auth','checkUser'])->group(function () {
 
     Route::get('dash',[dashController::class,'index'])->name('dash');
-    Route::get('addCatgory',[catgiryController::class,'index'])->name('addCatgory');
+    //---------------catgory
+    Route::get('addCatgory',[catgiryController::class,'index'])->name('page.addCatgory');
+    Route::post('addCatgory',[catgiryController::class,'store'])->name('add.catgory');
+    
     Route::get('listCatgory',[catgiryController::class,'listCatgory'])->name('listCatgory');
+    //-----------------end catgory
+
+    //----------------product
     Route::get('addProduct',[productController::class,'index'])->name('addProduct');
-    Route::get('listProduct',[productController::class,'listProduct'])->name('listProduct');
+    Route::post('storaddProduct',[productController::class,'store'])->name('storaddProduct');
+    Route::get('listProduct',[productController::class,'show'])->name('listProduct');
+    Route::get('editproduct/{id}',[productController::class,'editProduct'])->name('editproduct');
+    Route::post('updateproduct/{id}',[productController::class,'updateProduct'])->name('updateProduct');
+
+    //--------------------end product
 
 });
 

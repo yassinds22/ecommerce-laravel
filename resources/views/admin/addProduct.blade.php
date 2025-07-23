@@ -15,7 +15,7 @@
                 <h3 class="card-title">Form row</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="#}" enctype="multipart/form-data">
+                <form action="{{route('storaddProduct')}}" method="POST"  enctype="multipart/form-data">
                     @csrf
                    <div class="form-row">
                         <div class="form-group col-md-3">
@@ -25,25 +25,48 @@
                         </div>
                         <div class="form-group col-md-3">
                             <label for="inputState"  class="col-form-label">صنف المنتج</label>
-                            <select id="inputState" name="parint" class="form-control">
-                                {{-- @foreach (  ) --}}
-                                <option value=""></option>
-
-                                {{-- @endforeach --}}
-
-                            </select>
+                           <select id="inputState" name="parent" class="form-control">
+                           @php
+                            $cat= \App\Models\Catgory::all();
+                             @endphp
+                           @foreach($cat as $cat)
+                           <option value="{{$cat->id}}">
+                            {{$cat->name}}
+                           </option>
+                          @endforeach
+                          
+    
+</select>
 
                         </div>
                         <div class="form-group col-md-3">
+                            <label for="inputZip" class="col-form-label">البراند</label>
+                            <input type="text" class="form-control" name="brand" id="inputZip">
+                            <p class="p-validtor"></p>
+                        </div>
+
+                         <div class="form-group col-md-3">
                             <label for="inputZip" class="col-form-label">الكمية</label>
-                            <input type="text" class="form-control" name="qul" id="inputZip">
+                            <input type="text" class="form-control" name="quantity" id="inputZip">
                             <p class="p-validtor"></p>
                         </div>
+
+
                         <div class="form-group col-md-3">
-                            <label for="inputZip" class="col-form-label">سعر المنتح الواحد</label>
-                            <input type="text" class="form-control" name="price" id="inputZip">
+                            <label for="inputZip" class="col-form-label">سعر  الشراء</label>
+                            <input type="text" class="form-control" name="cost_price" id="inputZip">
                             <p class="p-validtor"></p>
                         </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="inputZip" class="col-form-label">سعر البيع </label>
+                            <input type="text" class="form-control" name="purchase_price" id="inputZip">
+                            <p class="p-validtor"></p>
+                        </div>
+
+
+
+
                     </div>
                     <div class="from-row">
                         <div class="form-group col-md-12">

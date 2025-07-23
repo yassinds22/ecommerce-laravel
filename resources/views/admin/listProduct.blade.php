@@ -18,27 +18,35 @@
                                 <th>الصورة</th>
                                 <th>صنف المنتج</th>
                                 <th> وصف المنتج</th>
+                                <th> البراند </th>
                                 <th>الكمية</th>
-                                <th>السعر</th>
+                                <th>سعر الشراء</th>
+                                <th>سعر البيع</th>
                                 <th>الحذف</th>
                                 <th>التعديل</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($data as $data ) --}}
+                            @foreach ($product as $data )
                              <tr>
-                                {{-- <th>{{ $data->id }}</th>
-                                <td>{{ $data->nameProduct }}</td> --}}
+                                <th>{{ $data->id }}</th>
+                                <td>{{ $data->name }}</td>
                                 <td><img src="" width="50"  height="50"></td>
 
 
-                                {{-- <td>{{ $data->discrtion }}</td>
-                                <td>{{ $data->qualty }}</td>
-                                <td>{{ $data->price }}</td> --}}
-                                <td><a href="editProduct/# "><img src="assets/images/admin/edit.png" width="30"></a></td>
-                                <td><a href="#" data-toggle="modal" data-target="#deleteModal" data-item-id="1"   ><img src="assets/images/admin/delete.png" width="30"></a></td>
+                                <td>{{ $data->catgorey_id }}</td>
+                                <td style="width: 200px">{{ $data->description }}</td>
+                                <td>{{ $data->brand }}</td>
+                                <td>{{ $data->quantity }}</td>
+                                <td>{{ $data->cost_price }}</td>
+                                <td>{{ $data->purchase_price }}</td>
+                               
+                                <td><a href="editproduct/{{$data->id}}"><img src="admin/assets/icon/edit.png" width="30"></a></td>
+                                <td><a href="#" data-toggle="modal" data-target="#deleteModal" data-item-id="1"   ><img src="admin/assets/icon/delet.png" width="30"></a></td>
 
                             </tr>
+                            name
+
 
 {{-- <!-- نافذة التأكيد (Modal) --> --}}
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,7 +83,7 @@
         modal.find('#deleteForm').attr('action', actionUrl);
     });
 </script>
-                            {{-- @endforeach --}}
+                            @endforeach
 
 
                         </tbody>

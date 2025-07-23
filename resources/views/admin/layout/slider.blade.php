@@ -19,7 +19,7 @@
 							<li class="slide">
 							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">Admin settings</span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
-								<li><a class="slide-item" href="{{route('addCatgory')}}">أضافة صنف</a></li>
+								<li><a class="slide-item" href="{{route('page.addCatgory')}}">أضافة صنف</a></li>
 								<li><a class="slide-item" href="{{route('listCatgory')}}"> كل الأصناف</a></li>
 								
 

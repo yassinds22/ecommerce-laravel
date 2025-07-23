@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('purchase_price');
             $table->string('old_price',10)->nullable();
             $table->string('new_price',10);
-            $table->binary('favorite')->default(0);
+            $table->integer('favorite')->default(0);
             $table->string('brand')->nullable();
             $table->enum('is_active', [1,0])->default(1);
           

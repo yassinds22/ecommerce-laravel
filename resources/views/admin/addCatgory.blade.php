@@ -16,7 +16,7 @@
                 <h3 class="card-title">Form row</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="" enctype="multipart/form-data">
+                <form method="POST" action="{{route('add.catgory')}}" enctype="multipart/form-data">
 
                     @csrf
                    <div class="form-row">
@@ -27,22 +27,14 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputState" class="col-form-label">نوع الصنف</label>
-                            <select id="inputState" class="form-control" value="{{ old('parint') }}" name="parint">
+                            <select id="inputState" class="form-control" value="0" name="parint">
                                 <option value="0">الرئسية</option>
 
                             </select>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="inputZip" class="col-form-label">أضافة صورة</label>
-                            <input type="file" value="{{ old('image') }}"  class="form-control"  id="inputZip" name="image" >
-                            {{-- <p class="p-validtor">{{ $errors->first('image') }}</p> --}}
-                        </div>
+                        
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">الوصف</label>
-                        <textarea class="form-control"   rows="4"   name="disc"></textarea>
-                        {{-- <p class="p-validtor">{{ $errors->first('disc') }}</p> --}}
-                    </div>
+                  
 
                     <div class="form-group">
                         <div class="form-check pl-0">

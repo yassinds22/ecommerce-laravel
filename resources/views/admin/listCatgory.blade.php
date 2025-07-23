@@ -17,21 +17,21 @@
                             <tr>
                                 <th>#</th>
                                 <th>الاسم</th>
-                                <th>نوع الصنف</th>
+                                
                                 <th>الوصف</th>
                                 <th>الحذف</th>
                                 <th>التعديل</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($allCatgory as $data ) --}}
+                            @foreach ($data as $data )
                              <tr>
-                                {{-- <th>{{ $data->id }}</th>
+                                <th>{{ $data->id }}</th>
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->parint }}</td>
-                                <td>{{ $data->discrption }}</td>
-                                <td><a href="editCatgory/{{ $data->id }}"><img src="assets/images/admin/edit.png" width="30"></a></td>
-                                <td><a href="{{ $data->id }}" data-toggle="modal" data-target="#deleteModal" data-item-id="1"><img src="assets/images/admin/delete.png" width="30"></a></td> --}}
+                                
+                                <td><a href="editCatgory/{{ $data->id }}"><img src="admin/assets/icon/delete.png" width="30"></a></td>
+                                <td><a href="{{ $data->id }}" data-toggle="modal" data-target="#deleteModal" data-item-id="1" style="color: rgb(90, 90, 235)"><img src="admin/assets/icon/edit.png" width="30"></a></td>
 
                             </tr>
 
@@ -72,7 +72,7 @@
     });
 </script>
 
-                            {{-- @endforeach --}}
+                            @endforeach
 
 
                         </tbody>
