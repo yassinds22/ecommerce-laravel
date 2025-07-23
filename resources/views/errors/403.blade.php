@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" dir="rtl">
+	<head>
+		<!-- Meta data -->
+		<meta charset="UTF-8">
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="Eudica - Online Education & Learning Courses HTML CSS Responsive Template" name="description">
+		<meta content="Spruko Technologies Private Limited" name="author">
+		<meta name="keywords" content="html rtl, html dir rtl, rtl website template, bootstrap 4 rtl template, rtl bootstrap template, admin panel template rtl, admin panel rtl, html5 rtl, academy training course css template, classes online training website templates, courses training html5 template design, education training rwd simple template, educational learning management jquery html, elearning bootstrap education template, professional training center bootstrap html, institute coaching mobile responsive template, marketplace html template premium, learning management system jquery html, clean online course teaching directory template, online learning course management system, online course website template css html, premium lms training web template, training course responsive website"/>
+
+		<!-- Favicon -->
+		<link rel="icon" href="admin/assets/images/brand/favicon.ico" type="image/x-icon"/>
+		<link rel="shortcut icon" type="image/x-icon" href="admin/assets/images/brand/favicon.ico" />
+
+		<!-- Title -->
+		<title>Eudica - Online Education & Learning Courses HTML CSS Responsive Template</title>
+
+		<!-- Bootstrap css -->
+		<link href="admin/assets/plugins/bootstrap-4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+
+		<!-- Sidemenu Css -->
+		<link href="admin/assets/plugins/sidemenu/sidemenu-rtl.css" rel="stylesheet" />
+
+		<!-- Dashboard Css -->
+		<link href="admin/assets/css/style-rtl.css" rel="stylesheet" />
+		<link href="admin/assets/css/admin-custom.css" rel="stylesheet" />
+
+		<!-- c3.js Charts Plugin -->
+		<link href="admin/assets/plugins/charts-c3/c3-chart.css" rel="stylesheet" />
+
+		<!-- Custom scroll bar css-->
+		<link href="admin/assets/plugins/scroll-bar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+
+		<!---Font icons-->
+		<link href="admin/assets/css/icons.css" rel="stylesheet"/>
+
+		<!-- Switcher css -->
+		<link  href="admin/assets/switcher/css/switcher-rtl.css" rel="stylesheet" id="switcher-css" type="text/css" media="all"/>
+
+		<!-- Color Skin css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="admin/assets/color-skins/color6.css" />
+
+	</head>
+
+	<body class="overflow-hidden construction-image">
+
+
+
+		<!--Loader-->
+		<div id="global-loader">
+			<img src="admin/assets/images/loader.svg" class="loader-img" alt="">
+		</div>
+		<!--/Loader-->
+
+		<!--Page-->
+		<div class="page page-h">
+			<div class="page-content z-documentation-10">
+				<div class="container text-center text-white">
+					<div class="display-1  mb-5"> 403</div>
+					<h1 class="h2  mb-3">Page Not Found</h1>
+					<p class="h4 font-weight-normal mb-7 leading-normal">Oops!!!! you tried to access a page which is not available. go back to Home</p>
+					<a class="btn btn-primary" href="{{route('home')}}">
+						Back To Home
+					</a>
+				</div>
+			</div>
+		</div>
+		<!--/Page-->
+
+		<!-- JQuery js-->
+		<script src="admin/assets/js/jquery-3.2.1.min.js"></script>
+
+		<!-- Bootstrap js -->
+		<script src="admin/assets/plugins/bootstrap-4.3.1/js/popper.min.js"></script>
+		<script src="admin/assets/plugins/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+
+		<!--JQuery Sparkline Js-->
+		<script src="admin/assets/js/jquery.sparkline.min.js"></script>
+
+		<!-- Circle Progress Js-->
+		<script src="admin/assets/js/circle-progress.min.js"></script>
+
+		<!-- Star Rating Js-->
+		<script src="admin/assets/plugins/rating/jquery.rating-stars.js"></script>
+
+		<!-- Fullside-menu Js-->
+		<script src="admin/assets/plugins/sidemenu/sidemenu.js"></script>
+
+		<!-- Custom scroll bar Js-->
+		<script src="admin/assets/plugins/scroll-bar/jquery.mCustomScrollbar.concat.min.js"></script>
+
+		<!--Counters -->
+		<script src="admin/assets/plugins/counters/counterup.min.js"></script>
+		<script src="admin/assets/plugins/counters/waypoints.min.js"></script>
+
+
+		<!-- Custom Js-->
+		<script src="admin/assets/js/admin-custom.js"></script>
+
+	</body>
+</html>
