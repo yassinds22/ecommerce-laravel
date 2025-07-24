@@ -9,25 +9,38 @@
 								</a>
 							</div>
 							<div class="user-info">
-								<h2>Rubin Carmody</h2>
+								<h2>{{Auth::user()->name}}</h2>
 								<span>Web Designer</span>
 							</div>
 						</div>
 					</div>
 					<ul class="side-menu">
+
+							<li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">أدارة الموردين </span><i class="angle fa fa-angle-right"></i></a>
+							<ul class="slide-menu">
+								<li><a class="slide-item" href="#">أضافة مورد</a></li>
+								<li><a class="slide-item" href="#"> كل الموردين</a></li>
+								
+
+							</ul>
+						</li>
+
+
 					
 							<li class="slide">
-							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">Admin settings</span><i class="angle fa fa-angle-right"></i></a>
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">أدارة الأصناف </span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
 								<li><a class="slide-item" href="{{route('page.addCatgory')}}">أضافة صنف</a></li>
 								<li><a class="slide-item" href="{{route('listCatgory')}}"> كل الأصناف</a></li>
 								
 
 							</ul>
-						</li>
+						</li>	
+					
 
                         <li class="slide">
-							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">Admin settings</span><i class="angle fa fa-angle-right"></i></a>
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">أدارة المنتجات </span><i class="angle fa fa-angle-right"></i></a>
 							<ul class="slide-menu">
 
 								<li><a class="slide-item" href="{{route('addProduct')}}">أضافة منتج</a></li>

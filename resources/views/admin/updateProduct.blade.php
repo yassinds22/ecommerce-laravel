@@ -15,7 +15,7 @@
                 <h3 class="card-title">Form row</h3>
             </div>
             <div class="card-body">
-                <form action="{{route('updateProduct',$product->id)}}" method="POST"  enctype="multipart/form-data">
+                <form action="{{route('updatProduct',$product->id)}}" method="POST"  enctype="multipart/form-data">
                     @csrf
                    <div class="form-row">
                         <div class="form-group col-md-3">

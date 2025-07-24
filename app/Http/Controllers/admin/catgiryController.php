@@ -34,6 +34,29 @@ class catgiryController extends Controller
   $product = Catgory::find($id);
   return view('admin.updateCatgory')->with('product',$product);
 
+
 }
-    //
+public function updateCatgory(Request $request, $id) 
+{
+  $catgory = Catgory::find($id);
+  $catgory->name = $request->name;
+  $catgory->parint = $request->parint;
+  $catgory->user_id=Auth::user()->id;
+  $catgory->save();
+  return response()->json($catgory);
+}
+public function destroyCatgory( $id)
+{
+    $deleteCatgory = Catgory::destroy($id);
+    if($deleteCatgory){
+          return redirect()->route('listCatgory');
+        }
+        else
+        {
+            return redirect()->back()->with("sucess","لم يتم الحذف");
+
+
+
+        }
+}    //
 }

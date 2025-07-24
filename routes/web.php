@@ -39,6 +39,10 @@ Route::middleware(['auth','checkUser'])->group(function () {
     Route::post('addCatgory',[catgiryController::class,'store'])->name('add.catgory');
     
     Route::get('listCatgory',[catgiryController::class,'listCatgory'])->name('listCatgory');
+    Route::get('editCatgory/{id}',[catgiryController::class,'editCatgory'])->name('editCatgory');
+    Route::post('/updateCatgory/{id}',[catgiryController::class,'updateCatgory'])->name('updateCatgory');
+    Route::get('deleteCatgory/{id}',[catgiryController::class,'destroyCatgory'])->name('deleteCatgory');
+
     //-----------------end catgory
 
     //----------------product
@@ -46,7 +50,8 @@ Route::middleware(['auth','checkUser'])->group(function () {
     Route::post('storaddProduct',[productController::class,'store'])->name('storaddProduct');
     Route::get('listProduct',[productController::class,'show'])->name('listProduct');
     Route::get('editproduct/{id}',[productController::class,'editProduct'])->name('editproduct');
-    Route::post('updateproduct/{id}',[productController::class,'updateProduct'])->name('updateProduct');
+    Route::post('updatProduct/{id}',[productController::class,'update'])->name('updatProduct');
+  Route::get('deleteProduct/{id}',[productController::class,'destroyProduct'])->name('deleteProduct');
 
     //--------------------end product
 

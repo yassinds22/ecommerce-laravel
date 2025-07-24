@@ -50,7 +50,7 @@ public function editProduct( $id)
   return view('admin.updateProduct')->with('product',$product);
 
 }
-public function updateProduct(Request $request, $id)  {
+public function update(Request $request, $id)  {
   $product = Product::find($id);
   $product->name = $request->name;
   $product->description = $request->disc;
@@ -63,6 +63,21 @@ public function updateProduct(Request $request, $id)  {
   $product->save();
   return response()->json($product);
 }
+public function destroyProduct( $id)
+{
+  $deleteProduct = Product::destroy($id);
+    if($deleteProduct){
+          return redirect()->route('listProduct');
+        }
+        else
+        {
+            return redirect()->back()->with("sucess","لم يتم الحذف");
+
+
+
+        }
+  
+}  
  
 
 

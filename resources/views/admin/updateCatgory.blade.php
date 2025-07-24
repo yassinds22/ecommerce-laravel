@@ -7,28 +7,22 @@
                 <h3 class="card-title">Form row</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="#">
+                <form action="{{route('updateCatgory',$product->id)}}" method="POST" >
                     @csrf
                    <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="inputCity" class="col-form-label">اسم الصنف</label>
-                            <input type="text" class="form-control" name="name" value="" id="inputCity">
+                            <input type="text" class="form-control" name="name" value="{{$product->name}}" id="inputCity">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="inputState" class="col-form-label">نوع الصنف</label>
                             <select id="inputState" class="form-control" name="parint">
-                                <option  value="0">الرئسية</option>
+                                <option  value="0">رئيسي</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="inputZip" class="col-form-label">أضافة صورة</label>
-                            <input type="file" class="form-control" name="image" id="inputZip" >
-                        </div>
+                        
                     </div>
-                    <div class="form-group">
-                        <label class="col-form-label">الوصف</label>
-                        <textarea class="form-control"   rows="4" placeholder="Address2.."  name="disc" > </textarea>
-                    </div>
+                    
 
                     <div class="form-group">
                         <div class="form-check pl-0">
