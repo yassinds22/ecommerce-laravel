@@ -33,6 +33,14 @@ class Product extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
-    
+    public function suppliers()
+{
+    return $this->belongsToMany(Supplier::class,'supplier_products','product_id','supplier_id');
+}
+
+public function cartsProduct()
+{
+    return $this->belongsToMany(Cart::class, 'cart_items');
+}
     //
 }

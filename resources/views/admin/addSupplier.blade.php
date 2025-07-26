@@ -21,19 +21,30 @@
                         <div class="form-group col-md-4">
                             <label for="inputCity" class="col-form-label">اسم الصنف</label>
                             <input  type="text" class="form-control"   name="name" id="inputCity">
-                        
                             <p class="p-validtor" id="nameError"></p>
-                          
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="inputState" class="col-form-label">نوع الصنف</label>
-                            <select id="inputState" class="form-control" value="0" name="parint">
-                                <option value="0">الرئسية</option>
-                            </select>
-                            <p class="p-validtor" id="parentError"></p>
+
+                         <div class="form-group col-md-4">
+                            <label for="inputCity" class="col-form-label"> العنوان</label>
+                            <input  type="text" class="form-control"   name="address" id="inputCity">
+                            <p class="p-validtor" id="nameError"></p>
                         </div>
+
+                             <div class="form-group col-md-4">
+                            <label for="inputCity" class="col-form-label"> رقم الجوال</label>
+                            <input  type="text" class="form-control"   name="phone" id="inputCity">
+                            <p class="p-validtor" id="nameError"></p>
+                        </div>
+                       
                         
                     </div>
+
+
+
+                 
+                       
+                        
+                    
                   
                     <div class="form-group">
                         <div class="form-check pl-0">
@@ -65,7 +76,7 @@
             const formData = new FormData(form);
             
             // إرسال الطلب باستخدام AJAX
-            fetch("{{ route('add.catgory') }}", {
+            fetch("{{ route('save.supplier') }}", {
                 method: 'POST',
                 body: formData,
                 headers: {

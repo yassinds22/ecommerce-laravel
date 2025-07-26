@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Catgory;
-
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,6 +15,20 @@ class catgiryController extends Controller
     }
   
     public function store(Request $request){
+  //     $validtor=Validator( $request->all([
+  //   'name'=>'required|min:5|max:30',
+
+  // ],
+  // [
+  //   'name.required'=> 'هذا القل مطلوب ',
+  //   'name.min'=> 'لازم يكون الاسم اكبر من 5 حروف',
+  //   'name.max'=> 'لازم يكون الاسم اقل من 50 حروف',
+  // ]
+  // ) );
+  // if( $validtor ->fails() ){
+  //   return back()->withErrors($validtor->errors());
+
+  // }
      $catgory = new Catgory();  
      $catgory->name = $request->name;
      $catgory->parint = $request->parint;
@@ -38,6 +52,7 @@ class catgiryController extends Controller
 }
 public function updateCatgory(Request $request, $id) 
 {
+  
   $catgory = Catgory::find($id);
   $catgory->name = $request->name;
   $catgory->parint = $request->parint;

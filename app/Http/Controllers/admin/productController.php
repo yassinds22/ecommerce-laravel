@@ -14,7 +14,9 @@ class productController extends Controller
     }
       public function show(){
         $product = Product::all();
-         return view('admin.listProduct')->with('product',$product);
+
+     
+        return view('admin.listProduct')->with('product',$product);
 
     }
 public function store(Request $request)
@@ -32,6 +34,9 @@ public function store(Request $request)
     $product->purchase_price = $request->purchase_price;
     $product->brand = $request->brand;
     
+    //$product-> = $request->product_id;
+
+    
     // 4. تصحيح اسم حقل الفئة (category_id بدلاً من catgorey_id)
     $product->catgorey_id  = $request->parent;
     
@@ -40,6 +45,8 @@ public function store(Request $request)
     
     // 6. حفظ المنتج
     $product->save();
+      $product->suppliers()->attach($request->supplier);
+
 
     // 7. إعادة توجيه بعد الحفظ (مهم!)
     return response()->json($product);

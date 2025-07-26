@@ -15,13 +15,13 @@
                     <table class="table table-bordered border-top mb-0">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>الرقم</th>
                                 <th>الاسم</th>
                                 
-                                <th>الوصف</th>
-                                <th>المستخدم</th>
-                                <th>التعديل</th>
-                                <th>الحذف</th>
+                                <th>العنوان</th>
+                                <th>ؤقم الجوال</th>
+                                <th>تعديل</th>
+                                <th>حذف</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,11 +29,11 @@
                              <tr>
                                 <th>{{ $data->id }}</th>
                                 <td>{{ $data->name }}</td>
-                                <td>{{ $data->parint }}</td>
-                                <td>{{ $data->user->name }}</td>
+                                <td>{{ $data->adddress }}</td>
+                                <td>{{ $data->phone }}</td>
                                 
-                                <td><a href="editCatgory/{{ $data->id }}"><img src="admin/assets/icon/edit.png" width="30"></a></td>
-                                <td><a href="deleteCatgory/{{ $data->id }}"><img src="admin/assets/icon/delet.png" width="30"></a></td>
+                                <td><a href="updatesupplier/{{ $data->id }}"><img src="admin/assets/icon/edit.png" width="30"></a></td>
+                                <td><a href="deletesupplier/{{ $data->id }}"><img src="admin/assets/icon/delet.png" width="30"></a></td>
 
                             </tr>
 

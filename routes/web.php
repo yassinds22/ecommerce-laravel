@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\catgiryController;
 use App\Http\Controllers\auth\authController;
 use App\Http\Controllers\admin\dashController;
 use App\Http\Controllers\admin\productController;
+use App\Http\Controllers\admin\suppllierController;
 use App\Http\Controllers\auth\registerController;
 use App\Http\Controllers\clint\clintController;
 use App\Http\Controllers\clint\homeController;
@@ -54,6 +55,14 @@ Route::middleware(['auth','checkUser'])->group(function () {
   Route::get('deleteProduct/{id}',[productController::class,'destroyProduct'])->name('deleteProduct');
 
     //--------------------end product
+    //------------suppllier
+    Route::get('addsupplier',[suppllierController::class,'index'])->name('addsupplier');
+    Route::post('avesupplier',[suppllierController::class,'store'])->name('save.supplier');
+    Route::get('listsupplier',[suppllierController::class,'listSupplier'])->name('list.supplier');
+    Route::get('updatesupplier/{id}',[suppllierController::class,'updateSupplier'])->name('updatesupplier');
+    Route::post('editsupplier/{id}',[suppllierController::class,'editSupplier'])->name('editSupplier');
+    Route::get('deletesupplier/{id}',[suppllierController::class,'deleteSupplier'])->name('deletesupplier');
+    //-----------end supplier
 
 });
 
