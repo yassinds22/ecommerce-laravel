@@ -29,7 +29,7 @@
                                 <tr id="product-row-{{ $data->id }}">
                                     <th>{{ $data->id }}</th>
                                     <td>{{ $data->name }}</td>
-                                    <td><img src="" width="50"  height="50"></td>
+                                    <td><img src="{{$data->getFirstMedia('images')?->getUrl()}}" width="50"  height="50"></td>
                                     <td>{{ $data->catgorey_id }}</td>
                                     <td style="width: 200px">{{ $data->description }}</td>
                                     <td>{{ $data->brand }}</td>

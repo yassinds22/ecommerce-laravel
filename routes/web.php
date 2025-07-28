@@ -6,8 +6,10 @@ use App\Http\Controllers\admin\dashController;
 use App\Http\Controllers\admin\productController;
 use App\Http\Controllers\admin\suppllierController;
 use App\Http\Controllers\auth\registerController;
+use App\Http\Controllers\clint\cartController;
 use App\Http\Controllers\clint\clintController;
 use App\Http\Controllers\clint\homeController;
+use App\Http\Controllers\clint\productDetailsController;
 use Illuminate\Support\Facades\Route;
 
 //route login------------------------------------------------------------
@@ -78,4 +80,12 @@ Route::middleware(['auth','checkUser'])->group(function () {
 
 
 Route::get('home',[homeController::class,'index'])->name('home');
+Route::get('detailsptoduct/{id}',[homeController::class,'detailsProduct'])->name('detailsptoduct');
 
+ Route::post('/cart/add/{product}', [cartController::class, 'addToCart'])->name('cart.add');
+ 
+
+
+ Route::middleware('auth')->group(function () {
+  Route::get('cartitem',[cartController::class,'showCartItem'])->name('cartitem');
+});

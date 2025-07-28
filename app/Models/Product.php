@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 
+use Spatie\MediaLibrary\InteractsWithMedia;
+    use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
+   use InteractsWithMedia;
    //  protected $guarded=['id'];
     protected $fillable = [
         'name', 
@@ -25,6 +31,15 @@ class Product extends Model
        
        
     ] ;
+
+
+     // 1. تعريف التحويلات (اختياري)
+
+    // 2. تعريف المجموعات (اختياري)
+  
+
+    // 2. تعريف المجموعات (اختياري)
+   
     public function catgory(){
         return $this->belongsTo(Catgory::class,'catgorey_id');
     }

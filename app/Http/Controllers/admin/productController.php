@@ -42,6 +42,7 @@ public function store(Request $request)
     
     // 5. أفضل طريقة للحصول على ID المستخدم
     $product->user_id = Auth::user()->id;
+    $product->addMedia($request->file('image'))->toMediaCollection('images');
     
     // 6. حفظ المنتج
     $product->save();
