@@ -8,452 +8,332 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Tajawal -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #4e73df;
-            --secondary-color: #858796;
-            --accent-color: #36b9cc;
-            --light-color: #f8f9fc;
-            --dark-color: #5a5c69;
-        }
-        
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            padding-top: 20px;
+            background: #f6f7fb;
+            color: #222;
         }
-        
-        .product-card {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-            transition: transform 0.3s ease;
-            background: white;
+        .product-main {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+            padding: 32px 24px;
+            margin-top: 32px;
         }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
+        .gallery-wrap {
+            display: flex;
+            gap: 24px;
         }
-        
-        .product-img-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 15px 15px 0 0;
+        .gallery-thumbs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
         }
-        
-        .product-img {
-            width: 100%;
-            height: 350px;
+        .gallery-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border 0.2s;
         }
-        
-        .product-img-container:hover .product-img {
-            transform: scale(1.05);
+        .gallery-thumb.active, .gallery-thumb:hover {
+            border: 2px solid #ff9900;
         }
-        
-        .product-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            z-index: 10;
-            font-size: 0.9rem;
-            padding: 5px 12px;
-            border-radius: 20px;
+        .gallery-main-img {
+            width: 350px;
+            height: 350px;
+            object-fit: contain;
+            border-radius: 16px;
+            background: #f9f9fb;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        
+        .product-info-block {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
         .product-title {
+            font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--dark-color);
+            color: #222;
         }
-        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+        }
+        .review-link {
+            color: #007185;
+            font-size: 1rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .product-price-block {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
         .product-price {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 15px;
+            color: #b12704;
         }
-        
         .old-price {
             text-decoration: line-through;
-            color: var(--secondary-color);
+            color: #888;
             font-size: 1.1rem;
-            margin-right: 10px;
+            font-weight: 500;
         }
-        
-        .discount-percent {
-            background-color: #e74a3b;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            margin-left: 10px;
+        .discount-badge {
+            background: linear-gradient(45deg, #ff9900, #ffb84d);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            padding: 3px 12px;
         }
-        
-        .product-actions .btn {
-            border-radius: 30px;
-            padding: 10px 20px;
+        .availability {
+            color: #007600;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .product-options {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .color-option, .storage-option {
+            border: 2px solid #eee;
+            border-radius: 8px;
+            padding: 8px 18px;
+            cursor: pointer;
             font-weight: 600;
-            margin: 5px 0;
+            background: #fafbfc;
+            transition: border 0.2s, background 0.2s;
         }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+        .color-option.selected, .storage-option.selected {
+            border: 2px solid #ff9900;
+            background: #fff7e6;
         }
-        
-        .btn-outline-primary {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .btn-outline-primary:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
         .quantity-selector {
             display: flex;
             align-items: center;
-            margin: 15px 0;
+            gap: 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            width: fit-content;
+            overflow: hidden;
         }
-        
         .quantity-btn {
             width: 40px;
             height: 40px;
-            border: 1px solid #ddd;
-            background-color: #f8f9fc;
-            font-size: 1.2rem;
+            background: #f3f4f8;
+            color: #ff9900;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            border: none;
+            transition: background 0.2s, color 0.2s;
         }
-        
+        .quantity-btn:hover {
+            background: #ff9900;
+            color: #fff;
+        }
         .quantity-input {
             width: 60px;
             height: 40px;
             text-align: center;
-            border: 1px solid #ddd;
-            border-left: none;
-            border-right: none;
+            border: none;
+            background: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #222;
         }
-        
+        .buy-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-buy {
+            background: linear-gradient(45deg, #ff9900, #ffb84d);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            border: none;
+            box-shadow: 0 2px 8px rgba(255, 153, 0, 0.13);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-buy:hover {
+            background: linear-gradient(45deg, #e68a00, #ffb84d);
+            transform: translateY(-2px);
+        }
+        .btn-fav {
+            background: #fff;
+            color: #ff9900;
+            border: 2px solid #ff9900;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            transition: background 0.2s, color 0.2s;
+        }
+        .btn-fav:hover {
+            background: #ff9900;
+            color: #fff;
+        }
+        .product-short-desc {
+            color: #444;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .tab-section {
+            margin-top: 48px;
+        }
+        .nav-tabs {
+            border: none;
+            margin-bottom: 0;
+        }
+        .nav-tabs .nav-link {
+            color: #222;
+            font-weight: 700;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            background: #f6f7fb;
+            border-radius: 12px 12px 0 0;
+            margin: 0 4px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-tabs .nav-link.active {
+            background: #fff;
+            color: #ff9900;
+        }
+        .tab-content {
+            background: #fff;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            padding: 32px 24px;
+            border: none;
+        }
         .specs-table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 18px;
         }
-        
-        .specs-table tr {
-            border-bottom: 1px solid #eee;
-        }
-        
         .specs-table td {
-            padding: 12px 10px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            border-bottom: 1px solid #f0f0f0;
         }
-        
-        .specs-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        .tab-content {
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 10px 10px;
-            background: white;
-        }
-        
-        .nav-tabs .nav-link {
-            color: var(--dark-color);
-            font-weight: 600;
-            border: none;
-            border-bottom: 3px solid transparent;
-            padding: 15px 25px;
-        }
-        
-        .nav-tabs .nav-link.active {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-            background: transparent;
-        }
-        
         .review-card {
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            background: white;
+            background: #f9f9fb;
+            border-radius: 12px;
+            padding: 22px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
         }
-        
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .review-author {
-            font-weight: 700;
-            color: var(--dark-color);
-        }
-        
-        .review-date {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-        }
-        
-        .stars {
-            color: #f39c12;
-            margin-bottom: 10px;
-        }
-        
-        .related-products {
-            margin-top: 50px;
-        }
-        
-        .section-title {
-            position: relative;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            font-weight: 700;
-            color: var(--dark-color);
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 80px;
-            height: 3px;
-            background-color: var(--primary-color);
-        }
-        
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(78, 115, 223, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-        }
-        
-        @media (max-width: 768px) {
-            .product-img {
-                height: 250px;
+        @media (max-width: 991px) {
+            .product-main {
+                padding: 18px 6px;
             }
-            
-            .product-actions .btn {
+            .tab-content {
+                padding: 18px 6px;
+            }
+            .gallery-main-img {
                 width: 100%;
+                height: 220px;
+            }
+        }
+        @media (max-width: 767px) {
+            .product-main {
+                margin-top: 12px;
+                padding: 8px 2px;
+            }
+            .gallery-wrap {
+                flex-direction: column;
+                align-items: center;
+            }
+            .gallery-main-img {
+                width: 100%;
+                height: 180px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container mb-5">
-        <!-- شريط التنقل -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-white rounded shadow-sm mb-4">
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="#">
-                    <i class="fas fa-shopping-bag me-2 text-primary"></i>متجر إلكتروني
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">الرئيسية</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">المنتجات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">التصنيفات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">عنا</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">اتصل بنا</a>
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        <a href="#" class="btn btn-outline-primary mx-2">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="badge bg-danger">3</span>
-                        </a>
-                        <a href="#" class="btn btn-primary">
-                            <i class="fas fa-user me-1"></i> تسجيل الدخول
-                        </a>
+    <div class="container">
+        <div class="product-main">
+            <div class="row g-5">
+                <!-- معرض الصور -->
+                <div class="col-lg-5">
+                    <div class="gallery-wrap">
+                        <div class="gallery-thumbs">
+                            <img src="{{$data->getFirstMediaUrl('images')}}" class="gallery-thumb active" data-big="{{$data->getFirstMediaUrl('images')}}" alt="صورة 1">
+                            <!-- يمكنك تكرار الصور المصغرة هنا إذا كان لديك أكثر من صورة -->
+                        </div>
+                        <img src="{{$data->getFirstMediaUrl('images')}}" alt="{{$data->name}}" class="gallery-main-img" id="mainProductImg">
                     </div>
                 </div>
-            </div>
-        </nav>
-
-        <!-- مسار التنقل -->
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
-                <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
-                <li class="breadcrumb-item"><a href="#">الإلكترونيات</a></li>
-                <li class="breadcrumb-item"><a href="#">الهواتف الذكية</a></li>
-                <li class="breadcrumb-item active" aria-current="page">سامسونج جالكسي S23</li>
-            </ol>
-        </nav>
-
-        <!-- تفاصيل المنتج -->
-        <div class="row g-4 mb-5">
-            <!-- صور المنتج -->
-            <div class="col-lg-6">
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="{{$data->getFirstMedia('images')?->getUrl()}}" alt="سامسونج جالكسي S23" class="product-img">
-                        <span class="product-badge bg-danger">خصم 15%</span>
-                    </div>
-                    
-                    <!-- الصور المصغرة -->
-                    <div class="row g-2 mt-3 px-3">
-                        <div class="col-3">
-                            <img src="https://images.samsung.com/is/image/samsung/p6pim/ar/2302/gallery/ar-galaxy-s23-s918-sm-s918bzkgmea-534866767?$130_104_PNG$" alt="صورة 1" class="img-thumbnail active">
+                <!-- معلومات المنتج -->
+                <div class="col-lg-7">
+                    <div class="product-info-block">
+                        <div class="product-title">{{$data->name}}</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="review-link">(24 تقييم)</span>
                         </div>
-                        <div class="col-3">
-                            <img src="https://images.samsung.com/is/image/samsung/p6pim/ar/2302/gallery/ar-galaxy-s23-s918-sm-s918bzkgmea-534866760?$130_104_PNG$" alt="صورة 2" class="img-thumbnail">
+                        <div class="product-price-block">
+                            <span class="product-price">{{$data->purchase_price}} ر.س</span>
+                            <span class="old-price">{{$data->purchase_price + 200}} ر.س</span>
+                            <span class="discount-badge">خصم 15%</span>
                         </div>
-                        <div class="col-3">
-                            <img src="https://images.samsung.com/is/image/samsung/p6pim/ar/2302/gallery/ar-galaxy-s23-s918-sm-s918bzkgmea-534866764?$130_104_PNG$" alt="صورة 3" class="img-thumbnail">
+                        <div class="availability"><i class="fas fa-check-circle me-1"></i>متوفر في المخزون</div>
+                        <div class="product-short-desc">{{$data->description}}</div>
+                        <div>
+                            <div class="mb-2 fw-bold">السعة:</div>
+                            <div class="product-options">
+                                <div class="storage-option" data-storage="128">128 جيجابايت</div>
+                                <div class="storage-option selected" data-storage="256">256 جيجابايت</div>
+                                <div class="storage-option" data-storage="512">512 جيجابايت</div>
+                            </div>
                         </div>
-                        <div class="col-3">
-                            <img src="https://images.samsung.com/is/image/samsung/p6pim/ar/2302/gallery/ar-galaxy-s23-s918-sm-s918bzkgmea-534866769?$130_104_PNG$" alt="صورة 4" class="img-thumbnail">
+                        <div>
+                            <div class="mb-2 fw-bold">الكمية:</div>
+                            <div class="quantity-selector">
+                                <button class="quantity-btn" id="decrement">-</button>
+                                <input type="text" class="quantity-input" value="1" id="quantity">
+                                <button class="quantity-btn" id="increment">+</button>
+                            </div>
+                        </div>
+                        <div class="buy-actions">
+                            <button class="btn-buy"><i class="fas fa-shopping-cart me-2"></i>أضف إلى السلة</button>
+                            <button class="btn-fav"><i class="fas fa-heart me-2"></i>أضف إلى المفضلة</button>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- معلومات المنتج -->
-            <div class="col-lg-6">
-                <div class="product-card p-4">
-                    <h1 class="product-title">{{$data->name}}</h1>
-                    
-                    <!-- التقييمات -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="ms-2 text-muted">(24 تقييم)</span>
-                        <span class="ms-3"><i class="fas fa-check-circle text-success me-1"></i> متوفر في المخزن</span>
-                    </div>
-                    
-                    <!-- السعر -->
-                    <div class="product-price">
-                        <span class="old-price">{{$data->purchase_price}} ر.س</span>
-                       {{$data->purchase_price}} ر.س
-                        <span class="discount-percent">15% خصم</span>
-                    </div>
-                    
-                    <p class="text-muted mb-4">هاتف سامسونج جالكسي S23 بشاشة ديناميكية AMOLED مقاس 6.1 بوصة، معالج Snapdragon 8 Gen 2، كاميرا خلفية ثلاثية بدقة 50 ميجابكسل، وبطارية 3900 مللي أمبير.</p>
-                    
-                    <!-- الألوان -->
-                    <div class="mb-4">
-                        <h6 class="mb-3">اللون:</h6>
-                        <div class="d-flex">
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="color" id="color1" checked>
-                                <label class="form-check-label" for="color1">
-                                    <span class="d-inline-block rounded-circle bg-dark" style="width: 20px; height: 20px;"></span> أسود
-                                </label>
-                            </div>
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="color" id="color2">
-                                <label class="form-check-label" for="color2">
-                                    <span class="d-inline-block rounded-circle bg-light border" style="width: 20px; height: 20px;"></span> أبيض
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="color" id="color3">
-                                <label class="form-check-label" for="color3">
-                                    <span class="d-inline-block rounded-circle bg-primary" style="width: 20px; height: 20px;"></span> أزرق
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- السعة -->
-                    <div class="mb-4">
-                        <h6 class="mb-3">السعة:</h6>
-                        <div class="d-flex">
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="storage" id="storage1">
-                                <label class="form-check-label" for="storage1">128 جيجابايت</label>
-                            </div>
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="radio" name="storage" id="storage2" checked>
-                                <label class="form-check-label" for="storage2">256 جيجابايت</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="storage" id="storage3">
-                                <label class="form-check-label" for="storage3">512 جيجابايت</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- الكمية -->
-                    <div class="mb-4">
-                        <h6 class="mb-3">الكمية:</h6>
-                        <div class="quantity-selector">
-                            <div class="quantity-btn" id="decrement">-</div>
-                            <input type="text" class="quantity-input" value="1" id="quantity">
-                            <div class="quantity-btn" id="increment">+</div>
-                        </div>
-                    </div>
-                    
-                    <!-- الأزرار -->
-                    <div class="product-actions mb-4">
-                        <button class="btn btn-primary w-100 mb-2">
-                            <i class="fas fa-shopping-cart me-2"></i>أضف إلى السلة
-                        </button>
-                        <button class="btn btn-outline-primary w-100">
-                            <i class="fas fa-heart me-2"></i>أضف إلى المفضلة
-                        </button>
-                    </div>
-                    
-                    <!-- الضمان والتوصيل -->
-                    <div class="d-flex justify-content-between border-top pt-3">
-                        <div class="text-center">
-                            <div class="feature-icon mx-auto">
-                                <i class="fas fa-truck"></i>
-                            </div>
-                            <div>توصيل مجاني</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="feature-icon mx-auto">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div>ضمان سنة</div>
-                        </div>
-                        <div class="text-center">
-                            <div class="feature-icon mx-auto">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
-                            <div>إرجاع مجاني</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- تفاصيل إضافية -->
-        <div class="row">
-            <div class="col-12">
+            <!-- تبويبات التفاصيل -->
+            <div class="tab-section">
                 <ul class="nav nav-tabs" id="productTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button">الوصف</button>
@@ -467,251 +347,98 @@
                 </ul>
                 <div class="tab-content" id="productTabsContent">
                     <div class="tab-pane fade show active" id="description" role="tabpanel">
-                        <h4 class="mb-3">وصف المنتج</h4>
-                        <p>هاتف سامسونج جالكسي S23 هو أحدث إصدار من سلسلة هواتف S الرائدة من سامسونج. يأتي الهاتف بشاشة ديناميكية AMOLED مقاس 6.1 بوصة بدقة FHD+ وبتقنية HDR10+ ومعدل تحديث 120 هرتز.</p>
-                        <p>يتميز الهاتف بأداء قوي بفضل معالج Snapdragon 8 Gen 2 الخاص بجالكسي، مع ذاكرة وصول عشوائي سعة 8 جيجابايت ومساحة تخزين داخلية 256 جيجابايت.</p>
-                        <p>نظام الكاميرا الخلفية ثلاثية العدسات يتكون من:</p>
-                        <ul>
-                            <li>كاميرا رئيسية بدقة 50 ميجابكسل مع تثبيت بصري</li>
-                            <li>كاميرا واسعة الزاوية بدقة 12 ميجابكسل</li>
-                            <li>كاميرا تليفوتوغرافية بدقة 10 ميجابكسل</li>
-                        </ul>
-                        <p>يأتي الهاتف ببطارية سعة 3900 مللي أمبير مع دعم الشحن السريع 25 وات، الشحن اللاسلكي، والشحن العكسي اللاسلكي. كما يدعم الهاتف تقنية 5G، NFC، وحماية IP68 ضد الماء والغبار.</p>
+                        <h4 class="mb-4 fw-bold">وصف المنتج</h4>
+                        <p class="fs-5">{{$data->description}}</p>
                     </div>
                     <div class="tab-pane fade" id="specs" role="tabpanel">
-                        <h4 class="mb-4">المواصفات الفنية</h4>
+                        <h4 class="mb-4 fw-bold">المواصفات الفنية</h4>
                         <table class="specs-table">
-                            <tr>
-                                <td>الشاشة</td>
-                                <td>6.1 بوصة، ديناميك AMOLED 2X، 120Hz</td>
-                            </tr>
-                            <tr>
-                                <td>المعالج</td>
-                                <td>Snapdragon 8 Gen 2 for Galaxy</td>
-                            </tr>
-                            <tr>
-                                <td>الذاكرة</td>
-                                <td>8 جيجابايت RAM</td>
-                            </tr>
-                            <tr>
-                                <td>التخزين</td>
-                                <td>256 جيجابايت (غير قابلة للتوسيع)</td>
-                            </tr>
-                            <tr>
-                                <td>الكاميرا الخلفية</td>
-                                <td>ثلاثية: 50MP رئيسية + 12MP واسعة + 10MP تيليفوتوغرافي</td>
-                            </tr>
-                            <tr>
-                                <td>الكاميرا الأمامية</td>
-                                <td>12 ميجابكسل</td>
-                            </tr>
-                            <tr>
-                                <td>البطارية</td>
-                                <td>3900 مللي أمبير، شحن سريع 25W، شحن لاسلكي</td>
-                            </tr>
-                            <tr>
-                                <td>نظام التشغيل</td>
-                                <td>Android 13 مع One UI 5.1</td>
-                            </tr>
-                            <tr>
-                                <td>المقاومة</td>
-                                <td>IP68 ضد الماء والغبار</td>
-                            </tr>
-                            <tr>
-                                <td>الأبعاد والوزن</td>
-                                <td>146.3 × 70.9 × 7.6 مم، 168 جرام</td>
-                            </tr>
+                            <tr><td class="fw-bold">الشاشة</td><td>6.1 بوصة، ديناميك AMOLED 2X، 120Hz</td></tr>
+                            <tr><td class="fw-bold">المعالج</td><td>Snapdragon 8 Gen 2 for Galaxy</td></tr>
+                            <tr><td class="fw-bold">الذاكرة</td><td>8 جيجابايت RAM</td></tr>
+                            <tr><td class="fw-bold">التخزين</td><td>256 جيجابايت (غير قابلة للتوسيع)</td></tr>
+                            <tr><td class="fw-bold">الكاميرا الخلفية</td><td>ثلاثية: 50MP رئيسية + 12MP واسعة + 10MP تيليفوتوغرافي</td></tr>
+                            <tr><td class="fw-bold">الكاميرا الأمامية</td><td>12 ميجابكسل</td></tr>
+                            <tr><td class="fw-bold">البطارية</td><td>3900 مللي أمبير، شحن سريع 25W، شحن لاسلكي</td></tr>
+                            <tr><td class="fw-bold">نظام التشغيل</td><td>Android 13 مع One UI 5.1</td></tr>
+                            <tr><td class="fw-bold">المقاومة</td><td>IP68 ضد الماء والغبار</td></tr>
+                            <tr><td class="fw-bold">الأبعاد والوزن</td><td>146.3 × 70.9 × 7.6 مم، 168 جرام</td></tr>
                         </table>
                     </div>
                     <div class="tab-pane fade" id="reviews" role="tabpanel">
-                        <h4 class="mb-4">تقييمات العملاء</h4>
-                        
+                        <h4 class="mb-4 fw-bold">تقييمات العملاء</h4>
                         <!-- تقييم جديد -->
-                        <div class="card mb-4">
+                        <div class="card mb-4 border-0 shadow">
                             <div class="card-body">
-                                <h5 class="card-title">أضف تقييمك</h5>
-                                <div class="mb-3">
-                                    <label class="form-label">التقييم</label>
-                                    <div class="stars mb-2">
-                                        <i class="far fa-star fs-4 me-1" style="cursor: pointer;"></i>
-                                        <i class="far fa-star fs-4 me-1" style="cursor: pointer;"></i>
-                                        <i class="far fa-star fs-4 me-1" style="cursor: pointer;"></i>
-                                        <i class="far fa-star fs-4 me-1" style="cursor: pointer;"></i>
-                                        <i class="far fa-star fs-4" style="cursor: pointer;"></i>
+                                <h5 class="card-title fw-bold">أضف تقييمك</h5>
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">التقييم</label>
+                                    <div class="stars mb-3">
+                                        <i class="far fa-star fs-3 me-1 text-warning" data-rating="1" style="cursor: pointer;"></i>
+                                        <i class="far fa-star fs-3 me-1 text-warning" data-rating="2" style="cursor: pointer;"></i>
+                                        <i class="far fa-star fs-3 me-1 text-warning" data-rating="3" style="cursor: pointer;"></i>
+                                        <i class="far fa-star fs-3 me-1 text-warning" data-rating="4" style="cursor: pointer;"></i>
+                                        <i class="far fa-star fs-3 text-warning" data-rating="5" style="cursor: pointer;"></i>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">التعليق</label>
-                                    <textarea class="form-control" rows="3" placeholder="شاركنا تجربتك مع المنتج"></textarea>
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">التعليق</label>
+                                    <textarea class="form-control" rows="4" placeholder="شاركنا تجربتك مع المنتج" style="border-radius: 15px;"></textarea>
                                 </div>
-                                <button class="btn btn-primary">إرسال التقييم</button>
+                                <button class="btn btn-buy px-4 py-2">إرسال التقييم</button>
                             </div>
                         </div>
-                        
                         <!-- تقييمات موجودة -->
                         <div class="review-card">
-                            <div class="review-header">
-                                <div class="review-author">محمد أحمد</div>
-                                <div class="review-date">15 مايو 2023</div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="fw-bold">محمد أحمد</div>
+                                <div class="text-muted" style="font-size:0.95rem;">15 مايو 2023</div>
                             </div>
-                            <div class="stars">
+                            <div class="stars mb-2">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <p>هاتف ممتاز بكل المقاييس، الشاشة رائعة والأداء سريع جداً، البطارية تدوم لي ليوم كامل مع الاستخدام المتوسط. الكاميرا تلتقط صوراً رائعة خاصة في الإضاءة المنخفضة. أنصح به بشدة.</p>
+                            <div>هاتف ممتاز بكل المقاييس، الشاشة رائعة والأداء سريع جداً، البطارية تدوم لي ليوم كامل مع الاستخدام المتوسط. الكاميرا تلتقط صوراً رائعة خاصة في الإضاءة المنخفضة. أنصح به بشدة.</div>
                         </div>
-                        
                         <div class="review-card">
-                            <div class="review-header">
-                                <div class="review-author">سارة خالد</div>
-                                <div class="review-date">10 أبريل 2023</div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="fw-bold">سارة خالد</div>
+                                <div class="text-muted" style="font-size:0.95rem;">10 أبريل 2023</div>
                             </div>
-                            <div class="stars">
+                            <div class="stars mb-2">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="far fa-star"></i>
                             </div>
-                            <p>تجربة رائعة بشكل عام، التصميم أنيق ومريح في اليد، الأداء سريع وسلس. لكن البطارية أتمنى لو كانت أكبر قليلاً. الشحن سريع جداً مما يعوض ذلك. الكاميرا ممتازة وخاصة وضع البورتريه.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- منتجات ذات صلة -->
-        <div class="related-products">
-            <h3 class="section-title">منتجات ذات صلة</h3>
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="product-card h-100">
-                        <img src="https://images.samsung.com/is/image/samsung/p6pim/ar/2202/gallery/ar-galaxy-s22-ultra-s908-sm-s908edrgmea-thumb-530606516" class="card-img-top" alt="سامسونج جالكسي S22 الترا">
-                        <div class="card-body">
-                            <h5 class="card-title">سامسونج جالكسي S22 الترا</h5>
-                            <p class="card-text text-muted">512 جيجابايت - أسود</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">3,199 ر.س</span>
-                                <span class="text-muted text-decoration-line-through">3,599 ر.س</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="product-card h-100">
-                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-deeppurple?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1663703841896" class="card-img-top" alt="آيفون 14 برو">
-                        <div class="card-body">
-                            <h5 class="card-title">آيفون 14 برو</h5>
-                            <p class="card-text text-muted">256 جيجابايت - بنفسجي</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">4,299 ر.س</span>
-                                <span class="text-muted text-decoration-line-through">4,799 ر.س</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="product-card h-100">
-                        <img src="https://images.samsung.com/is/image/samsung/p6pim/ar/2302/gallery/ar-galaxy-s23-plus-graphite-534866767?$205_164_PNG$" class="card-img-top" alt="سامسونج جالكسي S23 بلس">
-                        <div class="card-body">
-                            <h5 class="card-title">سامسونج جالكسي S23 بلس</h5>
-                            <p class="card-text text-muted">512 جيجابايت - رمادي</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">3,399 ر.س</span>
-                                <span class="text-muted text-decoration-line-through">3,899 ر.س</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="product-card h-100">
-                        <img src="https://www.oppo.com/content/dam/oppo/common/mkt/section2/list2/reno8-pro/list/reno8-pro-5g-product-list-blue-427-x-600.png" class="card-img-top" alt="أوبو رينو 8 برو">
-                        <div class="card-body">
-                            <h5 class="card-title">أوبو رينو 8 برو</h5>
-                            <p class="card-text text-muted">256 جيجابايت - أزرق</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-primary">2,199 ر.س</span>
-                                <span class="text-muted text-decoration-line-through">2,499 ر.س</span>
-                            </div>
+                            <div>تجربة رائعة بشكل عام، التصميم أنيق ومريح في اليد، الأداء سريع وسلس. لكن البطارية أتمنى لو كانت أكبر قليلاً. الشحن سريع جداً مما يعوض ذلك. الكاميرا ممتازة وخاصة وضع البورتريه.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- تذييل الصفحة -->
-    <footer class="bg-dark text-white py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <h4 class="mb-3">متجر إلكتروني</h4>
-                    <p>متجرك الإلكتروني الأول لأحدث الأجهزة الإلكترونية والهواتف الذكية. نوفر لكم أفضل المنتجات بأسعار تنافسية وخدمة عملاء مميزة.</p>
-                    <div class="social-icons mt-3">
-                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-2 mb-4">
-                    <h5 class="mb-3">روابط سريعة</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-white">الرئيسية</a></li>
-                        <li class="mb-2"><a href="#" class="text-white">منتجاتنا</a></li>
-                        <li class="mb-2"><a href="#" class="text-white">عروض خاصة</a></li>
-                        <li class="mb-2"><a href="#" class="text-white">عنا</a></li>
-                        <li><a href="#" class="text-white">اتصل بنا</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <h5 class="mb-3">فئات المنتجات</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-white">الهواتف الذكية</a></li>
-                        <li class="mb-2"><a href="#" class="text-white">الكمبيوتر المحمول</a></li>
-                        <li class="mb-2"><a href="#" class="text-white">الأجهزة اللوحية</a></li>
-                        <li class="mb-2"><a href="#" class="text-white">الساعات الذكية</a></li>
-                        <li><a href="#" class="text-white">الإكسسوارات</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="mb-3">اتصل بنا</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> الرياض، المملكة العربية السعودية</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2"></i> +966 11 123 4567</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@example.com</li>
-                        <li><i class="fas fa-clock me-2"></i> من الأحد إلى الخميس: 9 صباحاً - 5 مساءً</li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-0">© 2023 متجر إلكتروني. جميع الحقوق محفوظة.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <img src="https://via.placeholder.com/40x25" alt="Visa" class="me-2">
-                    <img src="https://via.placeholder.com/40x25" alt="MasterCard" class="me-2">
-                    <img src="https://via.placeholder.com/40x25" alt="Mada">
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
-        // وظيفة لزيادة ونقصان الكمية
+        // تغيير الصورة الرئيسية عند الضغط على صورة مصغرة
+        document.querySelectorAll('.gallery-thumb').forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                document.querySelectorAll('.gallery-thumb').forEach(img => img.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('mainProductImg').src = this.getAttribute('data-big');
+            });
+        });
+        // كمية المنتج
         document.getElementById('increment').addEventListener('click', function() {
             const quantityInput = document.getElementById('quantity');
             let quantity = parseInt(quantityInput.value);
             quantityInput.value = quantity + 1;
         });
-        
         document.getElementById('decrement').addEventListener('click', function() {
             const quantityInput = document.getElementById('quantity');
             let quantity = parseInt(quantityInput.value);
@@ -719,23 +446,27 @@
                 quantityInput.value = quantity - 1;
             }
         });
-        
-        // وظيفة لتحديد الصورة المصغرة النشطة
-        document.querySelectorAll('.img-thumbnail').forEach(thumbnail => {
-            thumbnail.addEventListener('click', function() {
-                // إزالة النشط من جميع الصور المصغرة
-                document.querySelectorAll('.img-thumbnail').forEach(img => {
-                    img.classList.remove('active');
-                    img.classList.remove('border-primary');
+        // اختيار السعة
+        document.querySelectorAll('.storage-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.storage-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        // تقييم النجوم
+        document.querySelectorAll('.stars i[data-rating]').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                const starsContainer = this.parentElement;
+                starsContainer.querySelectorAll('i').forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
                 });
-                
-                // إضافة النشط للصورة المحددة
-                this.classList.add('active');
-                this.classList.add('border-primary');
-                
-                // تغيير الصورة الرئيسية
-                const mainImage = document.querySelector('.product-img');
-                mainImage.src = this.src.replace('$130_104_PNG$', '$650_519_PNG$');
             });
         });
     </script>
