@@ -12,39 +12,52 @@ use Illuminate\Support\Facades\Auth;
 class cartController extends Controller
 {
   // إضافة منتج إلى السلة
-    public function addToCart(Request $request, Product $product)
-    {
-        // $request->validate([
-        //     'quantity' => 'required|integer|min:1|max:' . $product->quantity
-        // ]);
+public function addToCart(Request $request, Product $product)
+{
+    $user = Auth::user();
 
-        $user = Auth::user();
-        
-        // إنشاء سلة جديدة إذا لم توجد
-        $cart = $user->cart ?: Cart::create(['user_id' => $user->id]);
+    // الحصول أو إنشاء السلة
+    $cart = $user->cart ?: Cart::create([
+        'user_id' => $user->id,
+        'status' => 'pending'
+    ]);
 
-        // البحث عن المنتج في السلة
-        $cartItem = $cart->items()->where('product_id', $product->id)->first();
+    // التحقق من وجود المنتج في السلة
+    $cartItem = $cart->items()->where('product_id', $product->id)->first();
 
-        if ($cartItem) {
-            // تحديث الكمية إذا كان المنتج موجوداً
-            $cartItem->update([
-                'quantity' => $cartItem->quantity + $request->quantity+1,
-            ]);
-        } else {
-            // إضافة جديد إذا لم يكن موجوداً
-            CartItme::create([
-                
-                'cart_id' => $cart->id,
-                'product_id' => $product->id,
-                $qual=$request->quantity+1,
-                'quantity' =>$qual,
-                'price' => $product->purchase_price,
-            ]);
-        }
+    // الكمية القادمة من المستخدم أو 1 كافتراضي
+    $quantityToAdd = $request->input('quantity', 1);
 
-        return back()->with('success', 'تمت إضافة المنتج إلى السلة!');
+    if ($cartItem) {
+        $cartItem->update([
+            'quantity' => $cartItem->quantity + $quantityToAdd,
+        ]);
+
+        // المنتج كان موجودًا وتم تحديث الكمية فقط
+        return response()->json([
+            'success' => false,
+            'message' => 'المنتج مضاف مسبقًا، تم زيادة الكمية في السلة.'
+        ]);
+    } else {
+        CartItme::create([
+            'cart_id' => $cart->id,
+            'product_id' => $product->id,
+            'quantity' => $quantityToAdd,
+            'price' => $product->purchase_price,
+        ]);
+
+        // المنتج تمت إضافته بنجاح
+        $totalQuantity = $cart->items()->sum('quantity');
+
+        return response()->json([
+            'success' => true,
+            'cart_count' => $totalQuantity,
+            'message' => 'تم إضافة المنتج إلى السلة بنجاح!'
+        ]);
     }
+}
+
+
     // public function showCartItem($id)
     // {
     //     $cart = Cart::find($id);
@@ -91,8 +104,7 @@ class cartController extends Controller
 public function showCartItem()
 {
     $userId = Auth::id();
-    
-    // استعلام آمن مع التأكد من ملكية السلة
+
     $cart = Cart::where('user_id', $userId)
                 ->with(['items.product' => function($query) {
                     $query->select('id', 'name', 'purchase_price');
@@ -110,10 +122,29 @@ public function showCartItem()
         return $item->price * $item->quantity;
     });
 
-    return response()->json($cart);
+    return view('clint.cartItem', ['cartItems' => $cart,'total' => $total]);
+    //return response()->json($cart);
 }
 
-    // عرض محتويات السلة
- 
-    //
+
+  public function removeFromCart(Request $request, Product $product)
+{
+    $user = Auth::user();
+    $cart = $user->cart;
+
+    if ($cart) {
+        $item = $cart->items()->where('product_id', $product->id)->first();
+        if ($item) {
+            $item->delete();
+        }
+    }
+
+    return response()->json([
+        'message' => 'تم حذف المنتج من السلة.',
+        'product_id' => $product->id,
+        'csrf' => csrf_token(),
+        'add_url' => route('cart.add', $product->id)
+    ]);
+}
+
 }

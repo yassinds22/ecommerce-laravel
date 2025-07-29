@@ -10,6 +10,7 @@ use App\Http\Controllers\clint\cartController;
 use App\Http\Controllers\clint\clintController;
 use App\Http\Controllers\clint\homeController;
 use App\Http\Controllers\clint\productDetailsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //route login------------------------------------------------------------
@@ -88,4 +89,16 @@ Route::get('detailsptoduct/{id}',[homeController::class,'detailsProduct'])->name
 
  Route::middleware('auth')->group(function () {
   Route::get('cartitem',[cartController::class,'showCartItem'])->name('cartitem');
+  Route::delete('/cart/remove/{product}', [cartController::class, 'removeFromCart'])->name('cart.remove');
+
 });
+Route::get('/cart/count', function () {
+    $user = Auth::user();
+    $count = 0;
+
+    if ($user && $user->cart) {
+        $count = $user->cart->items()->count();
+    }
+
+    return response()->json(['count' => $count]);
+})->name('cart.count');
