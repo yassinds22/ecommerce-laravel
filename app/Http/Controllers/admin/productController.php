@@ -71,21 +71,24 @@ public function update(Request $request, $id)  {
   $product->save();
   return response()->json($product);
 }
-public function destroyProduct( $id)
+public function destroyProduct($id)
 {
-  $deleteProduct = Product::destroy($id);
-    if($deleteProduct){
-          return redirect()->route('listProduct');
+    $deleteProduct = Product::destroy($id);
+
+    if ($deleteProduct) {
+        // لو الطلب AJAX، رجع JSON
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'تم حذف المنتج']);
         }
-        else
-        {
-            return redirect()->back()->with("sucess","لم يتم الحذف");
-
-
-
+        return redirect()->route('listProduct')->with('success', 'تم حذف المنتج');
+    } else {
+        if (request()->ajax()) {
+            return response()->json(['success' => false, 'message' => 'لم يتم الحذف']);
         }
-  
-}  
+        return redirect()->back()->with('error', 'لم يتم الحذف');
+    }
+}
+
  
 
 

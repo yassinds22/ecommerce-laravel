@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartItme;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -104,6 +105,7 @@ public function addToCart(Request $request, Product $product)
 public function showCartItem()
 {
     $userId = Auth::id();
+    $user= Auth::user();
 
     $cart = Cart::where('user_id', $userId)
                 ->with(['items.product' => function($query) {
@@ -112,17 +114,18 @@ public function showCartItem()
                 ->first();
 
     if (!$cart || $cart->items->isEmpty()) {
-        return response()->json([
-            'message' => 'سلة التسوق فارغة',
-            'cart' => null
-        ], 200);
+        return redirect()->back();
     }
 
     $total = $cart->items->sum(function($item) {
         return $item->price * $item->quantity;
     });
+    $infoUser = Cart::where('user_id', $userId)->with('user') ->first() ->user;
+   
+    //return response()->json($infoUser);
 
-    return view('clint.cartItem', ['cartItems' => $cart,'total' => $total]);
+    return view('clint.cartItem', ['cartItems' => $cart,'total' => $total,'infoUser'=> $infoUser]);
+
     //return response()->json($cart);
 }
 

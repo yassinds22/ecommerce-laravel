@@ -299,7 +299,12 @@
                         </button>
                     </form>
                     <div>
-                        <a href="#" class="btn btn-outline-primary me-2">تسجيل دخول</a>
+                     @auth
+                     <a href="#" class="btn btn-outline-primary me-2">{{ Auth::user()->name }}</a>
+                 @else
+               <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">تسجيل دخول</a>
+                 @endauth
+
                     </div>
                 </div>
             </div>

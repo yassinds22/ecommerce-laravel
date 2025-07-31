@@ -9,6 +9,7 @@ use App\Http\Controllers\auth\registerController;
 use App\Http\Controllers\clint\cartController;
 use App\Http\Controllers\clint\clintController;
 use App\Http\Controllers\clint\homeController;
+use App\Http\Controllers\clint\orderController;
 use App\Http\Controllers\clint\productDetailsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -55,7 +56,7 @@ Route::middleware(['auth','checkUser'])->group(function () {
     Route::get('listProduct',[productController::class,'show'])->name('listProduct');
     Route::get('editproduct/{id}',[productController::class,'editProduct'])->name('editproduct');
     Route::post('updatProduct/{id}',[productController::class,'update'])->name('updatProduct');
-  Route::get('deleteProduct/{id}',[productController::class,'destroyProduct'])->name('deleteProduct');
+  Route::delete('deleteProduct/{id}',[productController::class,'destroyProduct'])->name('deleteProduct');
 
     //--------------------end product
     //------------suppllier
@@ -70,7 +71,10 @@ Route::middleware(['auth','checkUser'])->group(function () {
 });
 
  // end route dashbord page Admin-----------------------------------------------------
+ Route::get('order/purchase',[orderController::class,'index'])->name('orderpurchase');
+//------order-----------
 
+//----end order---------------------
 
 
   

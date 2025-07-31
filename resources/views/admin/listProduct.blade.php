@@ -39,9 +39,13 @@
                                    
                                     <td><a href="editproduct/{{$data->id}}"><img src="admin/assets/icon/edit.png" width="30"></a></td>
                                     <td>
-                                        <a href="deleteProduct/{{$data->id}}" class="delete-product" >
+                                      
+
+                                        <a href="#" class="delete-product" data-id="{{ $data->id }}">
                                             <img src="admin/assets/icon/delet.png" width="30">
-                                        </a>
+                                         </a>
+                                         
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -55,5 +59,42 @@
 
 
 
-   
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '.delete-product', function (e) {
+            e.preventDefault(); // ⛔️ يمنع التوجيه التلقائي
+
+            if (!confirm('هل أنت متأكد من حذف المنتج؟')) return;
+
+            let id = $(this).data('id');
+
+            $.ajax({
+                url: '/deleteProduct/' + id,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert(response.message);
+                        // إما تعيد تحميل الصفحة
+                        location.reload();
+
+                        // أو تحذف العنصر من DOM مباشرة (مثال):
+                        // $('#product-' + id).remove();
+                    } else {
+                        alert('فشل الحذف: ' + response.message);
+                    }
+                },
+                error: function (xhr) {
+                    alert('حدث خطأ أثناء الحذف');
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+>
+
 @endsection

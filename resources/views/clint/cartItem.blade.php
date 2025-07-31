@@ -275,8 +275,10 @@
               <button class="quantity-btn" onclick="updateQuantity(this, 1)"><i class="fas fa-plus"></i></button>
             </div>
           </div>
-          <a href="{{route('cart.remove',$item->product->id)}}" class="remove-link cart-remove-float"><i class="fas fa-trash-alt me-1"></i>حذف</a>
-        </div>
+<a href="#" class="remove-link cart-remove-float delete-from-cart" data-id="{{ $item->product->id }}">
+    <i class="fas fa-trash-alt me-1"></i> حذف
+</a>
+       </div>
         @empty
         <div class="alert alert-info">سلة المشتريات فارغة.</div>
         @endforelse
@@ -286,13 +288,15 @@
         <div class="invoice-box">
           <div class="invoice-title"><i class="fas fa-receipt"></i>ملخص الطلب</div>
           <div class="mb-3">
-            <strong>الاسم:</strong> ياسين علي عفيفي<br />
-            <strong>رقم الهاتف:</strong> 00967736792196<br />
-            <strong>البلد:</strong> اليمن
+            <strong>الاسم:</strong> {{$infoUser->name}}<br />
+            <strong>رقم الهاتف:</strong> {{$infoUser->number}}<br />
+            <strong>البلد:</strong> اليمن:
+            <strong>المحافظة:</strong> الحديدة:
+            <strong>المديرية:</strong> زبيد:
+            <strong>العزلة:</strong> :الوادي
           </div>
           <div class="mb-3">
-            <strong>رقم الطلبية:</strong> #123456<br />
-            <strong>موعد إيصال الطلب:</strong> 5 أغسطس 2025
+            
           </div>
           <div class="invoice-line">
             <span>الإجمالي الفرعي</span>
@@ -307,7 +311,7 @@
             <span id="total-value">${{$total+$ff}}</span>
           </div>
           <div class="d-grid gap-2 mt-4 invoice-actions">
-            <button class="checkout-btn"><i class="fas fa-credit-card me-2"></i>إتمام الشراء</button>
+            <a href="{{route('orderpurchase')}}" class="checkout-btn"><i class="fas fa-credit-card me-2"></i>إتمام الشراء</a>
             <button onclick="window.print()" class="btn btn-outline-secondary"><i class="fas fa-print me-2"></i>طباعة الفاتورة</button>
             <button onclick="sendInvoiceWhatsApp()" class="btn btn-outline-success"><i class="fab fa-whatsapp me-2"></i>إرسال عبر واتساب</button>
             <button onclick="copyInvoiceText()" class="btn btn-outline-primary"><i class="fas fa-copy me-2"></i>نسخ نص الفاتورة</button>
@@ -321,7 +325,33 @@
  @include('clint.layout.footer')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-  // نفس السكربت السابق
+    $(document).ready(function() {
+        $('.delete-from-cart').click(function(e) {
+            e.preventDefault();
+
+            if (!confirm("هل أنت متأكد أنك تريد حذف هذا المنتج؟")) return;
+
+            let productId = $(this).data('id');
+
+            $.ajax({
+                url: '/cart/remove/' + productId,
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // ✅ قم بتحديث الصفحة أو حذف العنصر من DOM
+                    alert('تم الحذف بنجاح');
+                    location.reload(); // أو استخدم jQuery لحذف العنصر مباشرة من الصفحة
+                },
+                error: function(xhr) {
+                    alert('حدث خطأ أثناء الحذف');
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
 </script>
+
 </body>
 </html>
