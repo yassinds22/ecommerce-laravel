@@ -11,9 +11,14 @@ class suppllierController extends Controller
     public function index(){
         return view("admin.addSupplier");
     }
-    public function listSupplier(){
-        $supplier = Supplier::all();
-        return view("admin.listSupplier")->with("data",$supplier);
+    public function listSupplier(Request $request ){
+          $suppliers = Supplier::orderBy("id", "desc")->get();
+    
+    if ($request->ajax()) {
+        return response()->json($suppliers);
+    }
+    
+    return view("admin.listSupplier")->with("data", $suppliers);
     }
     public function store(Request $request){
         $supplier=new Supplier();
@@ -21,8 +26,10 @@ class suppllierController extends Controller
         $supplier->phone=$request->phone;
         $supplier->adddress=$request->address;
         $supplier->save();
-        return redirect()->back();
-   
+        return response()->json([
+            'message' => 'Supplier added successfully!',
+            'data'    => $supplier
+        ], 200);   
 
 
 
@@ -42,6 +49,10 @@ return view("admin.updateSupplier")->with("data",$supplier);
         $supplier->save();
 
     }
+
+
+
+
     public function deleteSupplier($id){
         $supplier=Supplier::destroy($id);
         return redirect()->back();

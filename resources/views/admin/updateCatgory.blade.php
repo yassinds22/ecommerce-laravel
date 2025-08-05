@@ -7,7 +7,7 @@
                 <h3 class="card-title">Form row</h3>
             </div>
             <div class="card-body">
-                <form action="{{route('updateCatgory',$product->id)}}" method="POST" >
+                <form action="{{route('updateCatgory',$product->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                    <div class="form-row">
                         <div class="form-group col-md-4">
@@ -19,6 +19,13 @@
                             <select id="inputState" class="form-control" name="parint">
                                 <option  value="0">رئيسي</option>
                             </select>
+                        </div>
+                           <div class="from-row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label">إضافة صورة</label>
+                                <input type="file" class="form-control" name="image" id="imageInput">
+                                <p class="p-validtor" id="imageError"></p>
+                            </div>
                         </div>
                         
                     </div>

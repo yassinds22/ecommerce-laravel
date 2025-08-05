@@ -33,6 +33,8 @@ class catgiryController extends Controller
      $catgory->name = $request->name;
      $catgory->parint = $request->parint;
      $catgory->user_id=Auth::user()->id;
+     $catgory->addMedia($request->file('image'))->toMediaCollection('imagesCat');
+
      
      $catgory->save();
      return response()->json($catgory);
@@ -57,8 +59,13 @@ public function updateCatgory(Request $request, $id)
   $catgory->name = $request->name;
   $catgory->parint = $request->parint;
   $catgory->user_id=Auth::user()->id;
+    if ($request->hasFile('image')) {
+   
+    $catgory->clearMediaCollection('imagesCat');
+    $catgory->addMedia($request->file('image'))->toMediaCollection('imagesCat');
+}
   $catgory->save();
-  return response()->json($catgory);
+  return redirect()->route('listCatgory')->with('success','تم تعديل الصنف بنجاح');
 }
 public function destroyCatgory( $id)
 {

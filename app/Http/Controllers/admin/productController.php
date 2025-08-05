@@ -66,10 +66,16 @@ public function update(Request $request, $id)  {
   $product->cost_price = $request->cost_price;
   $product->purchase_price = $request->purchase_price;
   $product->brand = $request->brand;
+  if ($request->hasFile('image')) {
+   
+    $product->clearMediaCollection('images');
+    $product->addMedia($request->file('image'))->toMediaCollection('images');
+}
+
   //$product->catgorey_id = $request->parent;
   $product->user_id = Auth::user()->id;
   $product->save();
-  return response()->json($product);
+  return redirect()->route('listProduct')->with('success','تم تعديل المنتج بنجاح');
 }
 public function destroyProduct($id)
 {

@@ -1,4 +1,8 @@
 @extends('admin.index')
+@section('titel')
+قائمة المنتجات
+
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">

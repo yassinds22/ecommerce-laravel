@@ -8,7 +8,10 @@
 		<meta content="Eudica - Online Education & Learning Courses HTML CSS Responsive Template" name="description">
 		<meta content="Spruko Technologies Private Limited" name="author">
 		<meta name="keywords" content="html rtl, html dir rtl, rtl website template, bootstrap 4 rtl template, rtl bootstrap template, admin panel template rtl, admin panel rtl, html5 rtl, academy training course css template, classes online training website templates, courses training html5 template design, education training rwd simple template, educational learning management jquery html, elearning bootstrap education template, professional training center bootstrap html, institute coaching mobile responsive template, marketplace html template premium, learning management system jquery html, clean online course teaching directory template, online learning course management system, online course website template css html, premium lms training web template, training course responsive website"/>
-
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 		<!-- Favicon -->
 		<link rel="icon" href="{{asset('admin/assets/images/brand/favicon.ico')}}" type="image/x-icon"/>
 		<link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/images/brand/favicon.ico')}}" />
@@ -42,8 +45,19 @@
 		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{{asset('admin/assets/color-skins/color6.css')}}" />
 
 	</head>
+	<style>
+		.app-content .page-header{
+			margin-top: 2px;
+			margin-bottom: 5px;
+		}
 
-	<body class="app sidebar-mini">
+		
+.app-content .side-app {
+    padding: 0px 30px 30px;
+}
+	</style>
+
+	<body class="app sidebar-mini" >
 		<!--Loader-->
 		<div id="global-loader">
 			<img src="{{asset('admin/assets/images/loader.svg')}}" class="loader-img" alt="">
@@ -55,7 +69,7 @@
 			<div class="page-main">
 
 				<!--App-Header-->
-				@include('admin.layout.header')
+				
 				<!--/App-Header-->
 
 				<!-- Sidebar menu-->
@@ -63,17 +77,17 @@
 				<!-- /Sidebar menu-->
 
 				<!--App-Content-->
-				<div class="app-content  my-3 my-md-5">
+				<div class="app-content  ">
 					<div class="side-app">
 
 						<!--Page-Header-->
-						<div class="page-header">
-							<h4 class="page-title">Dashboard 02</h4>
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Dashboard 02</li>
-							</ol>
-						</div>
+					@if (Route::currentRouteName() !== 'listorder')
+                         <div class="page-header">
+                             <h4 class="page-title">@yield('titel')</h4>
+                             </div>
+                            @endif
+
+						
 						<!--/Page-Header-->
 
 						@yield('content')

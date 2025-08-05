@@ -25,6 +25,39 @@
         </div>
     </section>
 
+
+     <!-- catgory Section -->
+    <section dir="rtl">
+    <div class="container">
+      <div class="row justify-content-center">
+
+
+     @foreach ($dataCat as $item)
+        <div class="col-md-6 col-lg-3">
+          <div class="card shadow-sm">
+            <div class="card-body" style="padding: 0px" >
+              
+             
+              <a href="{{route('cherdernCatgory',$item->id)}}"  style="margin: 0px">
+                            <img src="{{$item->getFirstMediaUrl('imagesCat')}}" class="card-img-top" alt="Card Image" height="170px">
+                           
+
+              </a>
+            </div>
+          </div>
+        </div>
+         
+     @endforeach
+
+
+        
+
+
+
+      </div>
+    </div>
+  </section>
+
     <!-- Features -->
     <section class="features">
         <div class="container">

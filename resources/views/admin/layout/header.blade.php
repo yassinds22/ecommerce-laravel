@@ -1,14 +1,12 @@
 <div class="app-header1 header py-1 d-flex">
 					<div class="container-fluid">
 						<div class="d-flex">
-							<a class="header-brand" href="index.html">
-								<img src="{{asset('admin/assets/images/brand/logo.png')}}" class="header-brand-img" alt="Lmslist logo">
-							</a>
+							<a class="navbar-brand fw-bold fs-3 text-primary" href="#">
+                <i class="fas fa-shopping-bag me-2" style="margin-left: 2px;"></i>متجرنا
+            </a>
 							<a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-toggle="sidebar" href="#"></a>
 							<div class="header-navicon">
-								<a href="#" data-toggle="search" class="nav-link d-lg-none navsearch-icon">
-									<i class="fa fa-search"></i>
-								</a>
+								
 							</div>
 							<div class="header-navsearch">
 								<a href="#" class=" "></a>

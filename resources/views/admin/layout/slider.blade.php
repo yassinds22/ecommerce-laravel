@@ -48,6 +48,16 @@
 
 							</ul>
 						</li>
+
+						<li class="slide">
+							<a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fe fe-settings"></i><span class="side-menu__label">أدارة الطلبات </span><i class="angle fa fa-angle-right"></i></a>
+							<ul class="slide-menu">
+
+								
+								<li><a class="slide-item" href="{{route('listorder')}}"> قائمة الطلبات</a></li>
+
+							</ul>
+						</li>
 					
 						
 					</ul>

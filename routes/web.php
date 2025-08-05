@@ -8,11 +8,13 @@ use App\Http\Controllers\admin\suppllierController;
 use App\Http\Controllers\auth\registerController;
 use App\Http\Controllers\clint\cartController;
 use App\Http\Controllers\clint\clintController;
+use App\Http\Controllers\clint\getAllProductCatgoryController;
 use App\Http\Controllers\clint\homeController;
 use App\Http\Controllers\clint\orderController;
 use App\Http\Controllers\clint\productDetailsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 
 //route login------------------------------------------------------------
 Route::get('/login', [AuthController::class, 'index'])
@@ -65,13 +67,20 @@ Route::middleware(['auth','checkUser'])->group(function () {
     Route::get('listsupplier',[suppllierController::class,'listSupplier'])->name('list.supplier');
     Route::get('updatesupplier/{id}',[suppllierController::class,'updateSupplier'])->name('updatesupplier');
     Route::post('editsupplier/{id}',[suppllierController::class,'editSupplier'])->name('editSupplier');
+    
     Route::get('deletesupplier/{id}',[suppllierController::class,'deleteSupplier'])->name('deletesupplier');
     //-----------end supplier
+    //-----------------list Order
+    Route::get('listoder',[App\Http\Controllers\admin\orderController::class,'index'])->name('listorder');
+
+
+    //----------------------------end list order
 
 });
 
  // end route dashbord page Admin-----------------------------------------------------
- Route::get('order/purchase',[orderController::class,'index'])->name('orderpurchase');
+ Route::get('orderpurchase',[orderController::class,'index'])->name('orderpurchase');
+ Route::post('/orderpurchase', [OrderController::class, 'store'])->name('orderpurchase.store');
 //------order-----------
 
 //----end order---------------------
@@ -88,6 +97,11 @@ Route::get('home',[homeController::class,'index'])->name('home');
 Route::get('detailsptoduct/{id}',[homeController::class,'detailsProduct'])->name('detailsptoduct');
 
  Route::post('/cart/add/{product}', [cartController::class, 'addToCart'])->name('cart.add');
+
+ //----------dash All product where id catgory
+ Route::get('getallproductCatgoey/{id}',[getAllProductCatgoryController::class,'allCheldernCatgory'])->name('cherdernCatgory');
+
+ //------------end dash All product where id catgory
  
 
 
@@ -106,3 +120,12 @@ Route::get('/cart/count', function () {
 
     return response()->json(['count' => $count]);
 })->name('cart.count');
+
+
+
+/////stripe---------
+// Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+// Route::post('/create-session', [PaymentController::class, 'createSession'])->name('create-session');
+
+// Route::get('/success', [PaymentController::class, 'success'])->name('success');
+// Route::get('/cancel', [PaymentController::class, 'cancel'])->name('cancel');

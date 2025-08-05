@@ -107,12 +107,16 @@ public function showCartItem()
     $userId = Auth::id();
     $user= Auth::user();
 
-    $cart = Cart::where('user_id', $userId)
-                ->with(['items.product' => function($query) {
-                    $query->select('id', 'name', 'purchase_price');
-                }])
-                ->first();
 
+//some colum
+    // $cart = Cart::where('user_id', $userId)
+    //             ->with(['items.product' => function($query) {
+    //                 $query->select('id', 'name','description', 'purchase_price');
+    //             }])
+    //             ->first();
+      $cart = Cart::where('user_id', $userId)
+                ->with('items.product')->first();
+//select all tabel
     if (!$cart || $cart->items->isEmpty()) {
         return redirect()->back();
     }

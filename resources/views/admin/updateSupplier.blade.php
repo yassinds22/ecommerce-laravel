@@ -1,6 +1,6 @@
 @extends('admin.index')
 @section('content')
-    <style>
+<style>
     .p-validtor{
         color: red;
         padding: 5px;
@@ -15,109 +15,76 @@
                 <h3 class="card-title">Form row</h3>
             </div>
             <div class="card-body">
-                <form id="categoryForm" method="POST" enctype="multipart/form-data">
+                <form id="categoryForm"   method="POST" enctype="multipart/form-data">
                     @csrf
                    <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="inputCity" class="col-form-label">اسم الصنف</label>
-                            <input  type="text" class="form-control"   name="name" value="{{$data->name}}" id="inputCity">
+                            <label for="nameInput" class="col-form-label">اسم الصنف</label>
+                            <input  type="text" class="form-control" name="name" value="{{$data->name}}" id="nameInput">
                             <p class="p-validtor" id="nameError"></p>
                         </div>
 
                          <div class="form-group col-md-4">
-                            <label for="inputCity" class="col-form-label"> العنوان</label>
-                            <input  type="text" class="form-control"   name="address" value="{{$data->adddress}}" id="inputCity">
-                            <p class="p-validtor" id="nameError"></p>
+                            <label for="addressInput" class="col-form-label"> العنوان</label>
+                            <input  type="text" class="form-control" name="address" value="{{$data->adddress}}" id="addressInput">
+                            <p class="p-validtor" id="addressError"></p>
                         </div>
 
-                             <div class="form-group col-md-4">
-                            <label for="inputCity" class="col-form-label"> رقم الجوال</label>
-                            <input  type="text" class="form-control"   name="phone" value="{{$data->phone}}" id="inputCity">
-                            <p class="p-validtor" id="nameError"></p>
-                        </div>
-                       
-                        
-                    </div>
-
-
-
-                 
-                       
-                        
-                    
-                  
-                    <div class="form-group">
-                        <div class="form-check pl-0">
+                         <div class="form-group col-md-4">
+                            <label for="phoneInput" class="col-form-label"> رقم الجوال</label>
+                            <input  type="text" class="form-control" name="phone" value="{{$data->phone}}" id="phoneInput">
+                            <p class="p-validtor" id="phoneError"></p>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">أضافة</button>
+
+                    <button type="button" class="btn btn-primary" id="submitBtn">تعديل</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<!-- jQuery مكتبة -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('categoryForm');
-        const submitBtn = document.getElementById('submitBtn');
-        
-        form.addEventListener('submit', function(e) {
+    $(document).ready(function(){
+        $('#submitBtn').click(function(e){
             e.preventDefault();
-            
-            // إخفاء أي أخطاء سابقة
-            document.querySelectorAll('.p-validtor').forEach(el => el.textContent = '');
-            
-            // تعطيل زر الإرسال لمنع الضغط المتكرر
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'جاري الإضافة...';
-            
-            // إنشاء FormData لإرسال البيانات
-            const formData = new FormData(form);
-            
-            // إرسال الطلب باستخدام AJAX
-            fetch("{{ route('editSupplier',$data->id) }}", {
+
+            // تنظيف رسائل الخطأ القديمة
+            $('.p-validtor').text('');
+
+            // جمع البيانات من الفورم
+            let formData = new FormData($('#categoryForm')[0]);
+
+            $.ajax({
+                url: '{{ route("editSupplier", $data->id) }}',
                 method: 'POST',
-                body: formData,
+                data: formData,
+                processData: false,
+                contentType: false,
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                // إعادة تمكين زر الإرسال
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'أضافة';
-                
-                // التحقق من حالة الاستجابة
-                if (response.status === 200) {
-                    return response.json();
-                } else if (response.status === 422) {
-                    return response.json().then(err => { throw err; });
-                } else {
-                    throw new Error('فشل في الإضافة');
-                }
-            })
-            .then(data => {
-                // إعادة تعيين النموذج عند النجاح
-                form.reset();
-                
-                // عرض رسالة النجاح
-                alert('تمت إضافة الصنف بنجاح!');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                
-                // معالجة أخطاء التحقق
-                if (error.errors) {
-                    for (const [key, value] of Object.entries(error.errors)) {
-                        const errorElement = document.getElementById(key + 'Error');
-                        if (errorElement) {
-                            errorElement.textContent = value[0];
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response){
+                    alert("تم التعديل بنجاح!");
+                    // يمكنك هنا إعادة تحميل الصفحة أو تحديث جزء من الواجهة حسب حاجتك
+                },
+                error: function(xhr){
+                    if(xhr.status === 422){
+                        let errors = xhr.responseJSON.errors;
+                        if(errors.name){
+                            $('#nameError').text(errors.name[0]);
                         }
+                        if(errors.address){
+                            $('#addressError').text(errors.address[0]);
+                        }
+                        if(errors.phone){
+                            $('#phoneError').text(errors.phone[0]);
+                        }
+                    } else {
+                        alert('حدث خطأ غير متوقع، حاول مرة أخرى.');
                     }
-                } else {
-                    alert(error.message || 'حدث خطأ أثناء الإضافة');
                 }
             });
         });

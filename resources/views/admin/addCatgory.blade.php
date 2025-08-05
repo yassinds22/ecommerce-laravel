@@ -32,6 +32,13 @@
                             </select>
                             <p class="p-validtor" id="parentError"></p>
                         </div>
+                           <div class="from-row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label">إضافة صورة</label>
+                                <input type="file" class="form-control" name="image" id="imageInput">
+                                <p class="p-validtor" id="imageError"></p>
+                            </div>
+                        </div>
                         
                     </div>
                   

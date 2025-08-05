@@ -182,6 +182,10 @@
       border: none;
       margin-bottom: 8px;
       transition: background 0.2s, transform 0.2s;
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
     }
     .checkout-btn:hover {
       background: linear-gradient(45deg, #3a56e6, #4e6af4);
@@ -191,6 +195,7 @@
       border-radius: 10px;
       font-weight: 600;
       margin-bottom: 6px;
+      width: 100%;
     }
     @media (max-width: 991px) {
       .cart-section {
@@ -249,109 +254,204 @@
         padding: 4px 10px;
       }
     }
+    
+    /* أنماط إضافية للرسائل والتحميل */
+    .order-success {
+      background: linear-gradient(45deg, #06d6a0, #05c192);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .loading-spinner {
+      width: 80px;
+      height: 80px;
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #4361ee;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+      background: linear-gradient(45deg, #ff6b6b, #e94f4f);
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+    }
+    
+    .confirmation-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .confirmation-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    
+    .order-summary {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    
+    .order-summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+    }
+    
+    .order-total {
+      font-weight: bold;
+      color: #4361ee;
+      font-size: 1.2rem;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    
+    .learning-note {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
 
-@include('clint.layout.header')
 <div class="container py-4">
+ 
+  
   <div class="cart-section">
     <div class="row">
       <!-- المنتجات -->
       <div class="col-lg-8 mb-4 mb-lg-0">
         <div class="cart-title"><i class="fas fa-shopping-cart"></i>منتجات السلة</div>
-        @forelse ($cartItems->items as $item)
-        <div class="cart-item position-relative">
-          <div class="cart-item-img-title-wrap">
-            <img src="{{ $item->product->getFirstMediaUrl('images') }}" class="cart-item-img" alt="صورة المنتج" />
-            <div class="cart-item-title mobile-title">{{ $item->product->name }}</div>
+        
+        <!-- المنتج 1 -->
+    @foreach ($cartItems->items as $item)
+        <div class="cart-item position-relative" style="height: auto; padding: 0px;">
+          <div class="cart-item-img-title-wrap" >
+            <img src="{{$item->product->getFirstMediaUrl('images')}}" class="cart-item-img" alt="صورة المنتج" style="width: 50px; height: 50px; padding: 1px;" />
+            <div class="cart-item-title mobile-title"> {{$item->product->name}}</div>
           </div>
           <div class="cart-item-info pe-4">
-            <div class="cart-item-title desktop-title">{{ $item->product->name }}</div>
-            <div class="cart-item-price">سعر الوحدة: <span class="unit-price">{{ $item->product->purchase_price }}</span> دولار</div>
+            <div class="cart-item-title desktop-title">  {{$item->product->description}}</div>
+            <div class="cart-item-price">سعر الوحدة: <span class="unit-price">{{$item->product->purchase_price}}</span> دولار</div>
             <div class="cart-item-controls">
-              <button class="quantity-btn" onclick="updateQuantity(this, -1)"><i class="fas fa-minus"></i></button>
-              <input type="number" class="quantity-input" value="{{ $item->quantity }}" min="1" onchange="calculateTotal()">
-              <button class="quantity-btn" onclick="updateQuantity(this, 1)"><i class="fas fa-plus"></i></button>
+              <button class="quantity-btn"><i class="fas fa-minus"></i></button>
+              <input type="number" class="quantity-input" value="{{$item->quantity}}" min="1">
+              <button class="quantity-btn"><i class="fas fa-plus"></i></button>
             </div>
           </div>
-<a href="#" class="remove-link cart-remove-float delete-from-cart" data-id="{{ $item->product->id }}">
-    <i class="fas fa-trash-alt me-1"></i> حذف
-</a>
-       </div>
-        @empty
-        <div class="alert alert-info">سلة المشتريات فارغة.</div>
-        @endforelse
+          <a href="#" class="remove-link cart-remove-float">
+              <i class="fas fa-trash-alt me-1"></i> حذف
+          </a>
+        </div>
+        
+    @endforeach
+        
+        <!-- المنتج 2 -->
+        
       </div>
+      
       <!-- الفاتورة -->
       <div class="col-lg-4">
         <div class="invoice-box">
           <div class="invoice-title"><i class="fas fa-receipt"></i>ملخص الطلب</div>
           <div class="mb-3">
             <strong>الاسم:</strong> {{$infoUser->name}}<br />
-            <strong>رقم الهاتف:</strong> {{$infoUser->number}}<br />
-            <strong>البلد:</strong> اليمن:
-            <strong>المحافظة:</strong> الحديدة:
-            <strong>المديرية:</strong> زبيد:
-            <strong>العزلة:</strong> :الوادي
+            <strong>رقم الهاتف:</strong> 771234567<br />
+            <strong>البلد:</strong> اليمن<br />
+            <strong>المحافظة:</strong> الحديدة<br />
+            <strong>المديرية:</strong> زبيد<br />
+            <strong>العزلة:</strong> الوادي
           </div>
-          <div class="mb-3">
-            
-          </div>
+          <form action="{{route('orderpurchase.store')}}" method="post" class="">
+            @csrf
           <div class="invoice-line">
             <span>الإجمالي الفرعي</span>
             <span id="subtotal-value">${{$total}}</span>
+            <input type="text" name="subtotal" value="{{$total}}" >
           </div>
           <div class="invoice-line">
             <span>الضريبة (10%)</span>
-            <span id="tax-value">${{$ff=(0.10 / 100)*$total}}</span>
+            
+            <span id="tax-value">${{$tax=(0.10/100)*$total}}</span>
+            <input type="text" name="tax" value="{{$tax=(0.10/100)*$total}}">
           </div>
           <div class="invoice-line invoice-total">
             <span>الإجمالي الكلي</span>
-            <span id="total-value">${{$total+$ff}}</span>
+            <span id="total-value">${{$total+$tax}}</span>
+            <input type="text" name="total" value="{{$total+$tax}}">
           </div>
+          <div>
+          <button type="submit"  class="checkout-btn" value=""><i class="fas fa-bolt me-2"></i>الدفع عاجل</button>
+          </div>
+          @foreach ($cartItems->items as $index => $item)
+    <input type="hidden" name="items[{{$index}}][product_id]" value="{{ $item->product->id }}">
+    <input type="hidden" name="items[{{$index}}][quantity]" value="{{ $item->quantity }}">
+    <input type="hidden" name="items[{{$index}}][unit_price]" value="{{ $item->product->purchase_price }}">
+    @endforeach
+
+        </form>
           <div class="d-grid gap-2 mt-4 invoice-actions">
-            <a href="{{route('orderpurchase')}}" class="checkout-btn"><i class="fas fa-credit-card me-2"></i>إتمام الشراء</a>
-            <button onclick="window.print()" class="btn btn-outline-secondary"><i class="fas fa-print me-2"></i>طباعة الفاتورة</button>
-            <button onclick="sendInvoiceWhatsApp()" class="btn btn-outline-success"><i class="fab fa-whatsapp me-2"></i>إرسال عبر واتساب</button>
-            <button onclick="copyInvoiceText()" class="btn btn-outline-primary"><i class="fas fa-copy me-2"></i>نسخ نص الفاتورة</button>
-            <button onclick="generatePDF()" class="btn btn-outline-info"><i class="fas fa-file-pdf me-2"></i>تحويل إلى PDF</button>
+            <a href="#" class="checkout-btn"><i class="fas fa-credit-card me-2"></i>إتمام الشراء</a>
+            
+            <button class="btn btn-outline-secondary"><i class="fas fa-print me-2"></i>طباعة الفاتورة</button>
+            <button class="btn btn-outline-success"><i class="fab fa-whatsapp me-2"></i>إرسال عبر واتساب</button>
+            <button class="btn btn-outline-primary"><i class="fas fa-copy me-2"></i>نسخ نص الفاتورة</button>
           </div>
         </div>
       </div>
     </div>
+    
+    <!-- رسالة نجاح الطلب (غير ظاهرة بدون JS) -->
+   
   </div>
+  
+
 </div>
- @include('clint.layout.footer')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.delete-from-cart').click(function(e) {
-            e.preventDefault();
-
-            if (!confirm("هل أنت متأكد أنك تريد حذف هذا المنتج؟")) return;
-
-            let productId = $(this).data('id');
-
-            $.ajax({
-                url: '/cart/remove/' + productId,
-                type: 'DELETE',
-                data: {
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    // ✅ قم بتحديث الصفحة أو حذف العنصر من DOM
-                    alert('تم الحذف بنجاح');
-                    location.reload(); // أو استخدم jQuery لحذف العنصر مباشرة من الصفحة
-                },
-                error: function(xhr) {
-                    alert('حدث خطأ أثناء الحذف');
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
 
 </body>
 </html>
