@@ -57,5 +57,8 @@ public function cartsProduct()
 {
     return $this->belongsToMany(Cart::class, 'cart_items');
 }
+public function orders(){
+        return $this->belongsToMany(Order::class,'item_oders');
+    }
     //
 }

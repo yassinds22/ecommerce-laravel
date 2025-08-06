@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class orderController extends Controller
 {
     public function index(){
-        $userId=Auth::user()->id;
+        
         $orders=Order::get();
         
-        return view("admin.listOrder");
+        return view("admin.listOrder")->with("data",$orders);
         //return response()->json($orders);
     }
     //

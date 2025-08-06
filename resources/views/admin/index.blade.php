@@ -71,6 +71,10 @@
 				<!--App-Header-->
 				
 				<!--/App-Header-->
+				@if (Route::currentRouteName() !='listorder')
+				@include('admin.layout.header')
+				
+				@endif
 
 				<!-- Sidebar menu-->
 				@include('admin.layout.slider')

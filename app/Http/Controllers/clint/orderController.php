@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItme;
 use App\Models\ItemOrder;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,53 +20,98 @@ class orderController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        // بدء معاملة قاعدة البيانات
-        DB::beginTransaction();
-        
-        try {
-            // إنشاء الطلب الجديد
-            $order = new Order();
-            $order->user_id = Auth::id(); // أو يمكنك استخدام $request->user()->id
-            $order->subtotal = $request->subtotal;
-            $order->tax = $request->tax;
-            $order->total = $request->total;
-            $order->status = 'pending'; // أو 'completed' حسب حالتك
-             $order->order_number = 'ORD-' . strtoupper(uniqid());
+public function store(Request $request)
+{
+    DB::beginTransaction();
+    
+    try {
+        $pendingOrder = Order::where('user_id', Auth::id())
+                            ->where('status', 'pending')
+                            ->first();
 
-            $order->save();
+        if ($pendingOrder) {
+            // تحديث الطلب الموجود
+            $pendingOrder->subtotal += $request->subtotal;
+            $pendingOrder->tax += $request->tax;
+            $pendingOrder->total += $request->total;
+            $pendingOrder->save();
             
-            // إضافة عناصر الطلب
+            // تحديث أو إضافة العناصر
             foreach ($request->items as $item) {
-                $orderItem = new ItemOrder();
-                $orderItem->order_id = $order->id;
-                $orderItem->product_id = $item['product_id'];
-                $orderItem->quantity = $item['quantity'];
-                 $orderItem->price = $item['unit_price'];
-                $orderItem->save();
+                $existingItem = ItemOrder::where('order_id', $pendingOrder->id)
+                                        ->where('product_id', $item['product_id'])
+                                        ->first();
+                
+                if ($existingItem) {
+                    // زيادة الكمية مع الحفاظ على السعر الأصلي
+                    $existingItem->quantity += $item['quantity'];
+                    $existingItem->save();
+                } else {
+                    // إضافة عنصر جديد مع السعر الحالي
+                    ItemOrder::create([
+                        'order_id' => $pendingOrder->id,
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['unit_price']
+                    ]);
+                }
             }
-             Cart::where('user_id', Auth::id())->delete();
             
-            // حفظ المعلومات في قاعدة البيانات
-            DB::commit();
-            
-            return response()->json([
-                'success' => true,
-                'message' => 'تم إنشاء الطلب بنجاح!',
-                'order_id' => $order->id
+            $message = 'تم تحديث الطلب الحالي بإضافة العناصر الجديدة';
+            $order_id = $pendingOrder->id;
+        } else {
+            // إنشاء طلب جديد
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'subtotal' => $request->subtotal,
+                'tax' => $request->tax,
+                'total' => $request->total,
+                'status' => 'pending',
+                'order_number' => 'ORD-' . strtoupper(uniqid())
             ]);
             
-        } catch (\Exception $e) {
-            // التراجع في حالة حدوث خطأ
-            DB::rollback();
+            // إضافة العناصر
+            foreach ($request->items as $item) {
+                ItemOrder::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['unit_price']
+                ]);
+            }
             
-            return response()->json([
-                'success' => false,
-                'message' => 'حدث خطأ أثناء إنشاء الطلب: ' . $e->getMessage()
-            ], 500);
+            // إنشاء سجل الدفع فقط للطلبات الجديدة
+            Payment::create([
+                'order_id' => $order->id,
+                'method' => $request->payment_method,
+                'amount' => $request->total,
+                'status' => 'pending',
+                'is_paid' => false
+            ]);
+            
+            $message = 'تم إنشاء طلب جديد بنجاح';
+            $order_id = $order->id;
         }
+        
+        // حذف السلة بعد التأكيد
+        Cart::where('user_id', Auth::id())->delete();
+        
+        DB::commit();
+        
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'order_id' => $order_id
+        ]);
+        
+    } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json([
+            'success' => false,
+            'message' => 'حدث خطأ أثناء العملية: ' . $e->getMessage()
+        ], 500);
     }
+}
 
     //
 }

@@ -12,19 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('order_number')->unique();
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('tax', 10, 2)->default(0);
-            $table->decimal('total', 10, 2);
-            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
-            $table->enum('payment_method', ['cash_on_delivery', 'credit_card', 'paypal'])->default('cash_on_delivery');
-            $table->boolean('is_paid')->default(false);
-            $table->string('order_status');
-            $table->softDeletes('deleted_at', precision: 0);
-            $table->timestamps();
+    $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->string('order_number')->unique();
+    $table->decimal('subtotal', 10, 2);
+    $table->decimal('discount', 10, 2)->default(0);
+    $table->decimal('tax', 10, 2)->default(0);
+    $table->decimal('total', 10, 2);
+    $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
+    $table->softDeletes('deleted_at', precision: 0);
+    $table->timestamps();
         });
     }
 

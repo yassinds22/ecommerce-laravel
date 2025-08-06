@@ -361,66 +361,44 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($data as $item )
+                                            
+                                            
                                             <tr>
-                                                <td class="order-id">#ORD-2023-001</td>
-                                                <td>علي محمد</td>
-                                                <td>05/08/2023</td>
-                                                <td>750 ر.س</td>
-                                                <td><span class="order-status status-completed">مكتمل</span></td>
+                                                <td class="order-id">{{$item->order_number}}</td>
+                                                <td>{{$item->user->name}}</td>
+                                                <td>{{$item->created_at}}</td>
+                                                <td>{{$item->total}} ر.س</td>
+                                                <td><!--'pending','processing','shipped','delivered','cancelled'-->
+                                                    @if ($item->status=='pending')
+                                                    <span class="order-status status-completed"> قيد الانتظار</span>
+                                                   
+                                                    @elseif($item->status=='processing')
+                                                    <span class="order-status status-processing">قيد المعالجة</span>
+                                                    
+                                                    @elseif($item->is_paid==1)
+                                                     <span class="order-status status-completed"> مكتمل</span>
+                                                   
+                                                    
+                                                    @elseif($item->status=='delivered')
+                                                     <span class="order-status status-completed">  تم الشحن</span>
+                                                  
+
+                                                    @elseif($item->status=='cancelled')
+                                                     <span class="order-status status-cancelled"> تم الالغاء</span>
+                                                   
+                                                    
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
                                                     <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
                                                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td class="order-id">#ORD-2023-002</td>
-                                                <td>سارة عبدالله</td>
-                                                <td>04/08/2023</td>
-                                                <td>1,250 ر.س</td>
-                                                <td><span class="order-status status-shipped">تم الشحن</span></td>
-                                                <td>
-                                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order-id">#ORD-2023-003</td>
-                                                <td>فهد خالد</td>
-                                                <td>03/08/2023</td>
-                                                <td>2,150 ر.س</td>
-                                                <td><span class="order-status status-processing">قيد المعالجة</span></td>
-                                                <td>
-                                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order-id">#ORD-2023-004</td>
-                                                <td>نورة سعد</td>
-                                                <td>02/08/2023</td>
-                                                <td>950 ر.س</td>
-                                                <td><span class="order-status status-pending">قيد الانتظار</span></td>
-                                                <td>
-                                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="order-id">#ORD-2023-005</td>
-                                                <td>ياسر أحمد</td>
-                                                <td>01/08/2023</td>
-                                                <td>1,850 ر.س</td>
-                                                <td><span class="order-status status-completed">مكتمل</span></td>
-                                                <td>
-                                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                                </td>
-                                            </tr>
+                                            @endforeach
+                                           
+                                           
                                         </tbody>
                                     </table>
                                 </div>
