@@ -24,20 +24,15 @@
                             <p class="p-validtor"></p>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="inputState"  class="col-form-label">صنف المنتج</label>
-                           <select id="inputState" name="parent" class="form-control">
-                   
-                          
-                          
-                           <option value="{{$product->catgorey_id }}">
-                         
-                           </option>
-                         
-                          
-    
-</select>
-
-                        </div>
+                                <label class="col-form-label">صنف المنتج</label>
+                                <select name="parent" class="form-control" id="categorySelect">
+                                   
+                                    
+                                        <option value="{{ $product->catgory_id }}">{{ $product->catgory_id  }}</option>
+                                  
+                                </select>
+                                <p class="p-validtor" id="parentError"></p>
+                            </div>
                         <div class="form-group col-md-3">
                             <label for="inputZip" class="col-form-label">البراند</label>
                             <input type="text" class="form-control" name="brand" value="{{$product->brand}}" id="inputZip">

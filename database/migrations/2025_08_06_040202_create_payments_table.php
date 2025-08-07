@@ -10,7 +10,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
+    {Schema::enableForeignKeyConstraints();
         Schema::create('payments', function (Blueprint $table) {
            $table->id();
            $table->foreignId('order_id')->constrained()->onDelete('cascade');
@@ -20,7 +20,7 @@ return new class extends Migration
            $table->enum('status', ['pending', 'completed', 'failed', 'refunded'])->default('pending');
            $table->boolean('is_paid')->default(false);
            $table->timestamps();
-    });
+    });Schema::disableForeignKeyConstraints();
     }
 
     /**

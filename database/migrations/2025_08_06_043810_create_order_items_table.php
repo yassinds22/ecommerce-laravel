@@ -10,17 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('item_orders', function (Blueprint $table) {
-            $table->id();
+    {Schema::enableForeignKeyConstraints();
+        Schema::create('order_items', function (Blueprint $table) {
+             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade'); 
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); 
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
-            $table->decimal('original_price', 10, 2)->after('price');//تتبع الاسعار
+            $table->decimal('original_price', 10, 2);//تتبع الاسعار
             $table->softDeletes('deleted_at', precision: 0);
             $table->timestamps();
-        });
+        });Schema::disableForeignKeyConstraints();
     }
 
     /**
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('item_orders');
+        Schema::dropIfExists('order_items');
     }
 };

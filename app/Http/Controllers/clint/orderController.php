@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItme;
 use App\Models\ItemOrder;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ public function store(Request $request)
             
             // تحديث أو إضافة العناصر
             foreach ($request->items as $item) {
-                $existingItem = ItemOrder::where('order_id', $pendingOrder->id)
+                $existingItem = OrderItem::where('order_id', $pendingOrder->id)
                                         ->where('product_id', $item['product_id'])
                                         ->first();
                 
@@ -48,13 +49,20 @@ public function store(Request $request)
                     $existingItem->save();
                 } else {
                     // إضافة عنصر جديد مع السعر الحالي
-                    ItemOrder::create([
+                    OrderItem::create([
                         'order_id' => $pendingOrder->id,
                         'product_id' => $item['product_id'],
                         'quantity' => $item['quantity'],
                         'price' => $item['unit_price']
                     ]);
                 }
+            }
+            
+            // تحديث مبلغ الدفع ليعكس القيمة الجديدة
+            $payment = Payment::where('order_id', $pendingOrder->id)->first();
+            if ($payment) {
+                $payment->amount = $pendingOrder->total;
+                $payment->save();
             }
             
             $message = 'تم تحديث الطلب الحالي بإضافة العناصر الجديدة';
@@ -64,15 +72,17 @@ public function store(Request $request)
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'subtotal' => $request->subtotal,
+               
                 'tax' => $request->tax,
                 'total' => $request->total,
                 'status' => 'pending',
-                'order_number' => 'ORD-' . strtoupper(uniqid())
+                'order_number' => 'ORD-' . strtoupper(uniqid()),
+                
             ]);
             
             // إضافة العناصر
             foreach ($request->items as $item) {
-                ItemOrder::create([
+                OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
@@ -80,13 +90,14 @@ public function store(Request $request)
                 ]);
             }
             
-            // إنشاء سجل الدفع فقط للطلبات الجديدة
+            // إنشاء سجل الدفع
             Payment::create([
                 'order_id' => $order->id,
-                'method' => $request->payment_method,
+                'method' => 'cash_on_delivery',
                 'amount' => $request->total,
                 'status' => 'pending',
-                'is_paid' => false
+                'is_paid' => false,
+                 'transaction_id' => 'COD-' . date('YmdHis') . '-' . $order->id
             ]);
             
             $message = 'تم إنشاء طلب جديد بنجاح';

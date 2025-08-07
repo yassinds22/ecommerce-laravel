@@ -9,7 +9,15 @@ class Payment extends Model
 {
     /** @use HasFactory<\Database\Factories\PaymentFactory> */
     use HasFactory;
-   
+   protected $fillable = [
+    'id',
+    'order_id',
+    'method',
+    'amount',
+    'transaction_id', 
+    'status',
+     'is_paid',
+   ];
     public function oders()  {
         return $this->belongsTo(Order::class);
         
