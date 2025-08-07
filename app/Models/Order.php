@@ -18,14 +18,29 @@ class Order extends Model
         'order_status'
     ];
   
-     public function user(){
-        return $this->belongsTo(User::class);
-    }
-    public function products(){
-        return $this->belongsToMany(Product::class,'item_oders');
-    }
-    public function paymets(){
-        return $this->hasMany(Payment::class);
-    }
+   
+
+    //////
+
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
+
+public function items()
+{
+    return $this->hasMany(OrderItem::class);
+}
+
+public function payments()
+{
+    return $this->hasMany(Payment::class);
+}
+
+public function products()
+{
+    return $this->belongsToMany(Product::class, 'order_items')
+                ->withPivot('quantity', 'price');
+}
     //
 }

@@ -1,6 +1,7 @@
 
     <!-- Header -->
     @include('clint.layout.header')
+ 
 
     <!-- Hero Section -->
     <section class="hero">

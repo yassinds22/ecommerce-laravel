@@ -10,7 +10,7 @@ use App\Http\Controllers\clint\cartController;
 use App\Http\Controllers\clint\clintController;
 use App\Http\Controllers\clint\getAllProductCatgoryController;
 use App\Http\Controllers\clint\homeController;
-use App\Http\Controllers\clint\orderController;
+use App\Http\Controllers\admin\orderController;
 use App\Http\Controllers\clint\productDetailsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -71,19 +71,28 @@ Route::middleware(['auth','checkUser'])->group(function () {
     Route::get('deletesupplier/{id}',[suppllierController::class,'deleteSupplier'])->name('deletesupplier');
     //-----------end supplier
     //-----------------list Order
-    Route::get('listoder',[App\Http\Controllers\admin\orderController::class,'index'])->name('listorder');
+    Route::get('listoder',[orderController::class,'index'])->name('listorder');
 
 
     //----------------------------end list order
 
-});
+     // end route dashbord page Admin-----------------------------------------------------
 
- // end route dashbord page Admin-----------------------------------------------------
- Route::get('orderpurchase',[orderController::class,'index'])->name('orderpurchase');
- Route::post('/orderpurchase', [OrderController::class, 'store'])->name('orderpurchase.store');
+
+
+
+
+ 
 //------order-----------
 
 //----end order---------------------
+
+});
+
+ Route::get('orderpurchase',[orderController::class,'index'])->name('orderpurchase');
+ Route::post('/orderpurchase', [OrderController::class, 'store'])->name('orderpurchase.store');
+ //Route::get('detailsorder',[orderController::class,'details'])->name('detailsorder');
+Route::get('veiwordernumber/{id}',[orderController::class,'veiwOrderNumber'])->name('detailsorder');
 
 
   

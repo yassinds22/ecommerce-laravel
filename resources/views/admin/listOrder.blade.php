@@ -391,7 +391,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
+                                                    <a href="{{route('detailsorder',$item->id)}}" ><i class="fas fa-eye"></i></a>
                                                     <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
                                                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
                                                 </td>
