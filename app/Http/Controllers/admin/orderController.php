@@ -144,5 +144,28 @@ public function veiwOrderNumber($id){
 //     $order->items
 //    ]);
 }
+public function updateOrder($id){
+ $order = Order::with([
+            'user', 
+            'items.product',
+            'payments' 
+            
+        ])->findOrFail($id);
+        return view('admin.updateOrder')->with('data', $order);
+
+}
+
+public function destoryOrder($id){
+    $order=Order::destroy($id);
+    if ($order) {
+        return redirect()->route('listorder')->with('success','تم حذف الطلبية');
+    }
+    else {
+        return redirect()->back()->with('error','لم يتم الحذف');
+    }
+
+}
+
+
 }
 

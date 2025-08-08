@@ -392,8 +392,8 @@
                                                 </td>
                                                 <td>
                                                     <a href="{{route('detailsorder',$item->id)}}" ><i class="fas fa-eye"></i></a>
-                                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                                                    <a href="{{route('update.order',$item->id)}}" class="action-btn edit-btn"><i class="fas fa-edit"></i></a>
+                                                    <a href="{{route('delete.order',$item->id)}}" class="action-btn delete-btn"><i class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                             @endforeach

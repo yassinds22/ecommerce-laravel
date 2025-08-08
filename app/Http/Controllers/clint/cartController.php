@@ -5,13 +5,18 @@ namespace App\Http\Controllers\clint;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartItme;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class cartController extends Controller
 {
+
+
+
   // إضافة منتج إلى السلة
 public function addToCart(Request $request, Product $product)
 {
@@ -153,5 +158,7 @@ public function showCartItem()
         'add_url' => route('cart.add', $product->id)
     ]);
 }
+
+
 
 }
