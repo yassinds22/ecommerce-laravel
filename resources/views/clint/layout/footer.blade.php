@@ -66,105 +66,97 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // دالة للتمرير إلى قسم المنتجات
-        function scrollToProducts() {
-            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-        }
+    // دالة للتمرير إلى قسم المنتجات
+    function scrollToProducts() {
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    $(document).ready(function() {
+        // إعداد CSRF لجميع طلبات Ajax
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         
-        // كود Ajax لإضافة المنتج إلى السلة
-        $(document).ready(function() {
-            // إعداد رأس CSRF لجميع طلبات Ajax
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+        // عند الضغط على زر الإضافة
+        $('.add-to-cart-button').click(function(e) {
+            e.preventDefault();
             
-            // معالجة النقر على زر الإضافة
-            $('.add-to-cart-button').click(function(e) {
-                e.preventDefault();
-                
-                var button = $(this);
-                var productId = button.data('product-id');
-                
-                // تعطيل الزر لمنع النقر المتكرر
-                button.prop('disabled', true);
-                button.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> جاري الإضافة...');
-                
-                // إرسال طلب Ajax
-                $.ajax({
-                    type: 'POST',
-                    url: '/cart/add/' + productId,
-                    data: {
-                        // لا حاجة لإرسال بيانات إضافية
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            // تحديث عدد العناصر في السلة
-                            $('#cart-count').text(response.cart_count);
-                            
-                            // تغيير الزر إلى حالة "تمت الإضافة"
-                            button.html('<i class="fas fa-check me-1"></i> تمت الإضافة');
-                            button.removeClass('btn-primary').addClass('btn-success btn-disabled');
-                            
-                            // إظهار إشعار النجاح
-                            showNotification('تمت الإضافة بنجاح!', 'تمت إضافة المنتج إلى سلة التسوق الخاصة بك', 'success');
-                        } else {
-                            // في حالة الخطأ
-                            showNotification('حدث خطأ!', response.message || 'لم يتم إضافة المنتج إلى السلة', 'danger');
-                            button.prop('disabled', false);
-                            button.html('<i class="fas fa-shopping-cart me-1"></i> إضافة إلى السلة');
-                        }
-                    },
-                    error: function(xhr) {
-                        // في حالة فشل الطلب
-                        var errorMessage = xhr.responseJSON && xhr.responseJSON.message 
-                            ? xhr.responseJSON.message 
-                            : 'تعذر الاتصال بالخادم، يرجى المحاولة مرة أخرى';
-                            
-                        showNotification('حدث خطأ!', errorMessage, 'danger');
+            var button = $(this);
+            var productId = button.data('product-id');
+            
+            // تعطيل الزر مؤقتاً
+            button.prop('disabled', true);
+            button.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> جاري الإضافة...');
+            
+            $.ajax({
+                type: 'POST',
+                url: '/cart/add/' + productId,
+                success: function(response) {
+                    if (response.success) {
+                        // تحديث عداد السلة
+                        $('#cart-count').text(response.cart_count);
+
+                        // تغيير الزر إلى "تمت الإضافة"
+                        button.html('<i class="fas fa-check me-1"></i> تمت الإضافة');
+                        button.removeClass('btn-primary').addClass('btn-success btn-disabled');
+                        
+                        showNotification('تمت الإضافة بنجاح!', 'تمت إضافة المنتج إلى سلة التسوق الخاصة بك', 'success');
+                    } else {
+                        // المنتج موجود أو خطأ آخر
+                        showNotification('تنبيه', response.message || 'المنتج موجود بالفعل في السلة', 'danger');
+                        
                         button.prop('disabled', false);
                         button.html('<i class="fas fa-shopping-cart me-1"></i> إضافة إلى السلة');
                     }
-                });
+                },
+                error: function(xhr) {
+                    var errorMessage = xhr.responseJSON && xhr.responseJSON.message 
+                        ? xhr.responseJSON.message 
+                        : 'تعذر الاتصال بالخادم، يرجى المحاولة مرة أخرى';
+                        
+                    showNotification('حدث خطأ!', errorMessage, 'danger');
+                    
+                    button.prop('disabled', false);
+                    button.html('<i class="fas fa-shopping-cart me-1"></i> إضافة إلى السلة');
+                }
             });
-            
-            // دالة لعرض الإشعارات
-            function showNotification(title, message, type) {
-                // إزالة أي إشعارات سابقة
-                $('.notification').remove();
-                
-                // إنشاء عنصر الإشعار
-                var alertClass = 'alert-' + type;
-                var iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-                
-                var notification = $(
-                    '<div class="notification">' +
-                    '   <div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' +
-                    '       <div class="d-flex align-items-center">' +
-                    '           <i class="fas ' + iconClass + ' me-2 fs-4"></i>' +
-                    '           <div>' +
-                    '               <h5 class="mb-0">' + title + '</h5>' +
-                    '               <p class="mb-0">' + message + '</p>' +
-                    '           </div>' +
-                    '       </div>' +
-                    '       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                    '   </div>' +
-                    '</div>'
-                );
-                
-                // إضافة الإشعار إلى الصفحة
-                $('body').append(notification);
-                
-                // إزالة الإشعار بعد 3 ثواني
-                setTimeout(function() {
-                    notification.fadeOut(500, function() {
-                        $(this).remove();
-                    });
-                }, 3000);
-            }
         });
-    </script>
+        
+        // دالة عرض الإشعارات
+        function showNotification(title, message, type) {
+            $('.notification').remove();
+            
+            var alertClass = 'alert-' + type;
+            var iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            
+            var notification = $(
+                '<div class="notification">' +
+                '   <div class="alert ' + alertClass + ' alert-dismissible fade show" role="alert">' +
+                '       <div class="d-flex align-items-center">' +
+                '           <i class="fas ' + iconClass + ' me-2 fs-4"></i>' +
+                '           <div>' +
+                '               <h5 class="mb-0">' + title + '</h5>' +
+                '               <p class="mb-0">' + message + '</p>' +
+                '           </div>' +
+                '       </div>' +
+                '       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '   </div>' +
+                '</div>'
+            );
+            
+            $('body').append(notification);
+            
+            setTimeout(function() {
+                notification.fadeOut(500, function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        }
+    });
+</script>
+
     <script>
     $(document).ready(function() {
         fetchCartCount();

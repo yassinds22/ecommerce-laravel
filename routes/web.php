@@ -85,7 +85,7 @@ Route::middleware(['auth','checkUser'])->group(function () {
  
 //------order-----------
  //Route::get('orderpurchase',[orderController::class,'index'])->name('orderpurchase');
- Route::post('/orderpurchase', [OrderController::class, 'store'])->name('orderpurchase.store');
+ 
  //Route::get('detailsorder',[orderController::class,'details'])->name('detailsorder');
 Route::get('veiwordernumber/{id}',[orderController::class,'veiwOrderNumber'])->name('detailsorder');
 Route::get('delete/order/{id}',[orderController::class,'destoryOrder'])->name('delete.order');
@@ -94,7 +94,7 @@ Route::get('update/order/{id}',[orderController::class,'updateOrder'])->name('up
 
 });
 
-
+Route::post('/orderpurchase', [OrderController::class, 'store'])->name('orderpurchase.store');
 
 
   

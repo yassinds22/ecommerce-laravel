@@ -81,7 +81,7 @@
 
                         <div class="form-group">
                             <label class="col-form-label">وصف المنتج</label>
-                            <textarea class="form-control" name="disc" rows="4" id="descriptionTextarea"></textarea>
+                            <textarea class="form-control" name="description" rows="4" id="descriptionTextarea"></textarea>
                             <p class="p-validtor" id="discError"></p>
                         </div>
 

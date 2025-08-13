@@ -3,69 +3,67 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCatgoryRequest;
 use App\Models\Catgory;
+use App\Services\CatgoryServices;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class catgiryController extends Controller
 {
+  public $catgoryServices;
+  public function __construct(CatgoryServices $catgoryServices){
+    $this->catgoryServices = $catgoryServices;
+
+  }
     public function index(){
         return view('admin.addCatgory');
     }
   
-    public function store(Request $request){
-  //     $validtor=Validator( $request->all([
-  //   'name'=>'required|min:5|max:30',
+  public function store(StoreCatgoryRequest $request)
+{
+    $validated = $request->validated();
+    $validated['user_id'] = Auth::id();
+    
+      $catgory = $this->catgoryServices->storeCategory(data: $validated,image: $request->file('image')  );
+        return response()->json($catgory);
+ 
+}
 
-  // ],
-  // [
-  //   'name.required'=> 'هذا القل مطلوب ',
-  //   'name.min'=> 'لازم يكون الاسم اكبر من 5 حروف',
-  //   'name.max'=> 'لازم يكون الاسم اقل من 50 حروف',
-  // ]
-  // ) );
-  // if( $validtor ->fails() ){
-  //   return back()->withErrors($validtor->errors());
 
-  // }
-     $catgory = new Catgory();  
-     $catgory->name = $request->name;
-     $catgory->parint = $request->parint;
-     $catgory->user_id=Auth::user()->id;
-     $catgory->addMedia($request->file('image'))->toMediaCollection('imagesCat');
 
-     
-     $catgory->save();
-     return response()->json($catgory);
-    }
 
       public function listCatgory(){
-        $allCatgory = Catgory::all();
+        $allCatgory =$this->catgoryServices->getAll();
          return view('admin.listCatgory')->with('data',$allCatgory);
 
     }
    public function editCatgory( $id)
 {
-  $product = Catgory::find($id);
+  $product =$this->catgoryServices->getById($id);
   return view('admin.updateCatgory')->with('product',$product);
 
 
 }
-public function updateCatgory(Request $request, $id) 
+public function updateCatgory(StoreCatgoryRequest $request, $id) 
 {
-  
-  $catgory = Catgory::find($id);
-  $catgory->name = $request->name;
-  $catgory->parint = $request->parint;
-  $catgory->user_id=Auth::user()->id;
-    if ($request->hasFile('image')) {
-   
-    $catgory->clearMediaCollection('imagesCat');
-    $catgory->addMedia($request->file('image'))->toMediaCollection('imagesCat');
-}
-  $catgory->save();
-  return redirect()->route('listCatgory')->with('success','تم تعديل الصنف بنجاح');
+    $validated = $request->validated();
+    
+    try {
+        $this->catgoryServices->updateCategory(
+            id: $id,
+            data: $validated,
+            image: $request->file('image') // قد يكون null
+        );
+
+        return redirect()->route('listCategory')->with('success', 'تم تعديل الصنف بنجاح');
+
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'فشل في تعديل الصنف: ' . $e->getMessage());
+    }
 }
 public function destroyCatgory( $id)
 {

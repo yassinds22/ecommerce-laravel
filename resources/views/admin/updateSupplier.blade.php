@@ -25,9 +25,9 @@
                         </div>
 
                          <div class="form-group col-md-4">
-                            <label for="addressInput" class="col-form-label"> العنوان</label>
-                            <input  type="text" class="form-control" name="address" value="{{$data->adddress}}" id="addressInput">
-                            <p class="p-validtor" id="addressError"></p>
+                            <label for="adddressInput" class="col-form-label"> العنوان</label>
+                            <input  type="text" class="form-control" name="adddress" value="{{$data->adddress}}" id="adddressInput">
+                            <p class="p-validtor" id="adddressError"></p>
                         </div>
 
                          <div class="form-group col-md-4">
@@ -76,8 +76,8 @@
                         if(errors.name){
                             $('#nameError').text(errors.name[0]);
                         }
-                        if(errors.address){
-                            $('#addressError').text(errors.address[0]);
+                        if(errors.adddress){
+                            $('#adddressError').text(errors.adddress[0]);
                         }
                         if(errors.phone){
                             $('#phoneError').text(errors.phone[0]);

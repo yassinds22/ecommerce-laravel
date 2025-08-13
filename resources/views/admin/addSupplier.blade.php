@@ -19,14 +19,14 @@
                     @csrf
                    <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="inputCity" class="col-form-label">اسم الصنف</label>
+                            <label for="inputCity" class="col-form-label">اسم المورد</label>
                             <input  type="text" class="form-control"   name="name" id="inputCity">
                             <p class="p-validtor" id="nameError"></p>
                         </div>
 
                          <div class="form-group col-md-4">
                             <label for="inputCity" class="col-form-label"> العنوان</label>
-                            <input  type="text" class="form-control"   name="address" id="inputCity">
+                            <input  type="text" class="form-control"   name="adddress" id="inputCity">
                             <p class="p-validtor" id="nameError"></p>
                         </div>
 

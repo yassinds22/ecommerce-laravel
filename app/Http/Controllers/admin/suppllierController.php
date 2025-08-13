@@ -3,33 +3,35 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSupplierRequest;
 use App\Models\Supplier;
+
+use App\Services\SupplierService;
 use Illuminate\Http\Request;
 
 class suppllierController extends Controller
 {
+    public $storeSupplierService;
+    public function __construct(SupplierService $storeSupplierService){
+        $this->storeSupplierService = $storeSupplierService;
+
+    }
     public function index(){
         return view("admin.addSupplier");
     }
-    public function listSupplier(Request $request ){
-          $suppliers = Supplier::orderBy("id", "desc")->get();
+    public function listSupplier( ){
+          $suppliers = $this->storeSupplierService->showSupplier();
     
-    if ($request->ajax()) {
-        return response()->json($suppliers);
-    }
+    
     
     return view("admin.listSupplier")->with("data", $suppliers);
     }
-    public function store(Request $request){
-        $supplier=new Supplier();
-        $supplier->name=$request->name;
-        $supplier->phone=$request->phone;
-        $supplier->adddress=$request->address;
-        $supplier->save();
-        return response()->json([
-            'message' => 'Supplier added successfully!',
-            'data'    => $supplier
-        ], 200);   
+
+    public function store(StoreSupplierRequest $request){
+
+       $this->storeSupplierService->storeSupplier($request->validated());
+      
+       
 
 
 
@@ -37,16 +39,17 @@ class suppllierController extends Controller
     }
     //
     public function updateSupplier($id){
-$supplier=Supplier::find($id);
-return view("admin.updateSupplier")->with("data",$supplier);
-    }
-    public function editSupplier(Request $request,$id){
-        $supplier=Supplier::find($id);
-        $supplier->name=$request->name;
-        $supplier->phone=$request->phone;
-        $supplier->adddress=$request->address;
 
-        $supplier->save();
+            $supplier=$this->storeSupplierService->getById($id);
+             return view("admin.updateSupplier")->with("data",$supplier);
+    }
+
+
+    public function editSupplier(StoreSupplierRequest $request,$id){
+        $this->storeSupplierService->updateCatgory($id,$request->validated());
+       
+
+        //$supplier->update($request->validated());
 
     }
 
@@ -54,7 +57,7 @@ return view("admin.updateSupplier")->with("data",$supplier);
 
 
     public function deleteSupplier($id){
-        $supplier=Supplier::destroy($id);
+        $this->storeSupplierService->destroySupplier($id);
         return redirect()->back();
     }
 }

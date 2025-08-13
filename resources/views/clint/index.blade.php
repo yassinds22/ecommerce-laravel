@@ -115,15 +115,30 @@
                             <h5 class="card-title fw-bold"> {{$item->name}}</h5>
                             <div class="text-success fw-bold fs-5 mb-2">{{$item->purchase_price}} ريال</div>
                             <p class="card-text text-muted flex-grow-1">{{$item->description}}</p>
+                            
+                            
+                         
+                         
                             <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-primary w-100 add-to-cart-button" 
+                                @if (!in_array($item->id, $cartProductIds))
+                                <button type="button add-to-cart-button" class="btn btn-primary w-100 add-to-cart-button" 
                                         data-product-id="{{ $item->id }}">
                                     <i class="fas fa-shopping-cart me-1"></i>إضافة إلى السلة
                                 </button>
+                         @else
+                          <button disabled type="button add-to-cart-button" class="btn btn-light w-100 add-to-cart-button" 
+                                        data-product-id="{{ $item->id }}">
+                                    <i class="fas fa-shopping-cart me-1"></i>مضافة إلى السلة
+                                </button>
+                                 @endif
+  
+                               
+                                
                                 <a href="detailsptoduct/{{$item->id}}" class="btn btn-outline-primary">
                                     <i class="fas fa-eye me-1"></i>عرض التفاصيل
                                 </a>
                             </div>
+                             
                         </div>
                     </div>
                 </div>
