@@ -384,9 +384,15 @@
               <button class="quantity-btn"><i class="fas fa-plus"></i></button>
             </div>
           </div>
-          <a href="#" class="remove-link cart-remove-float">
+            <form action="{{route('cart.remove',$item->id)}}" method="POST">
+    @csrf
+    @method('DELETE')
+      <button  class="remove-link cart-remove-float">
               <i class="fas fa-trash-alt me-1"></i> حذف
-          </a>
+          </button>
+</form>
+
+        
         </div>
         
     @endforeach

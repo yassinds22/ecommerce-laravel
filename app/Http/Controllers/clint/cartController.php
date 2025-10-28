@@ -64,48 +64,7 @@ public function addToCart(Request $request, Product $product)
 }
 
 
-    // public function showCartItem($id)
-    // {
-    //     $cart = Cart::find($id);
 
-        
-    //     return view('clint.cartItem')->with('$data', $cart);
-    // }
- 
-
-// public function showCartItem()
-// {
-//     // الحصول على المستخدم الحالي
-//     $user = Auth::user()->id;
-    
-//     // جلب سلة المستخدم مع عناصرها والمنتجات المرتبطة
-//     $cart = $user->cart->with(['items.product' => function($query) {
-//         $query->select('id', 'name', 'purchase_price');
-//     }])->first();
-
-//     // إذا لم يكن للمستخدم سلة أو السلة فارغة
-//     if (!$cart || $cart->items->isEmpty()) {
-//         return view('cart.show', [
-//             'cartItems' => collect(),
-//             'total' => 0,
-//             'message' => 'سلة التسوق فارغة'
-//         ]);
-//     }
-
-//     $cartItems = $cart->items;
-//     $total = 0;
-
-//     // حساب الإجمالي
-//     foreach ($cartItems as $item) {
-//         // تأكد من وجود المنتج
-//         if ($item->product) {
-//             $total += $item->price * $item->quantity;
-//         }
-//     }
-// return response()->json($cart);
-//     // تمرير البيانات إلى الواجهة
-//    // return view('cart.show', compact('cartItems', 'total'));
-// }
 
 public function showCartItem()
 {

@@ -8,20 +8,29 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Services\OrderServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class orderController extends Controller
 {
+    public $orderService;
+    public function __construct(OrderServices $orderService){
+        $this->orderService = $orderService;
+
+    }
     
     public function index(){
         
-        $orders=Order::get();
-        
-        return view("admin.listOrder")->with("data",$orders);
-        //return response()->json($orders);
+        $orders=$this->orderService->getAll();
+       
+       return view("admin.listOrder")->with("data",$orders);
+    
     }
+
+
 
 
 
@@ -30,9 +39,7 @@ public function store(Request $request)
     DB::beginTransaction();
     
     try {
-        $pendingOrder = Order::where('user_id', Auth::id())
-                            ->where('status', 'pending')
-                            ->first();
+        $pendingOrder =$this->orderService->storeOrder();
 
         if ($pendingOrder) {
             // تحديث الطلب الموجود
@@ -43,7 +50,8 @@ public function store(Request $request)
             
             // تحديث أو إضافة العناصر
             foreach ($request->items as $item) {
-                $existingItem = OrderItem::where('order_id', $pendingOrder->id)
+                $existingItem = 
+                OrderItem::where('order_id', $pendingOrder->id)
                                         ->where('product_id', $item['product_id'])
                                         ->first();
                 
@@ -73,43 +81,22 @@ public function store(Request $request)
             $order_id = $pendingOrder->id;
         } else {
             // إنشاء طلب جديد
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'subtotal' => $request->subtotal,
-               
-                'tax' => $request->tax,
-                'total' => $request->total,
-                'status' => 'pending',
-                'order_number' => 'ORD-' . strtoupper(uniqid()),
-                
-            ]);
+            $order =$this->orderService->createOrder($request);
             
-            // إضافة العناصر
-            foreach ($request->items as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['unit_price']
-                ]);
-            }
+            //  إضافة العناصر الطلب
+           $this->orderService->addItemOrder($request, $order);
             
             // إنشاء سجل الدفع
-            Payment::create([
-                'order_id' => $order->id,
-                'method' => 'cash_on_delivery',
-                'amount' => $request->total,
-                'status' => 'pending',
-                'is_paid' => false,
-                 'transaction_id' => 'COD-' . date('YmdHis') . '-' . $order->id
-            ]);
+         $this->orderService->createRecordPayment($request, $order);
             
             $message = 'تم إنشاء طلب جديد بنجاح';
             $order_id = $order->id;
         }
+
+        $this->orderService->clearCart();
         
         // حذف السلة بعد التأكيد
-        Cart::where('user_id', Auth::id())->delete();
+       // Cart::where('user_id', Auth::id())->delete();
         
         DB::commit();
         
@@ -129,34 +116,19 @@ public function store(Request $request)
 }
 
 public function veiwOrderNumber($id){
- $order = Order::with([
-            'user', 
-            'items.product',
-            'payments' 
-            
-        ])->findOrFail($id);
+ $order = $this->orderService->getById($id);
     
     return view('admin.detailsOrder')->with('data', $order);
-//    return response()->json([
-//     $order->user->name,
-//     $order->order_number,
-//     $order->products,
-//     $order->items
-//    ]);
+  
 }
 public function updateOrder($id){
- $order = Order::with([
-            'user', 
-            'items.product',
-            'payments' 
-            
-        ])->findOrFail($id);
+ $order =$this->orderService->updateById($id);
         return view('admin.updateOrder')->with('data', $order);
 
 }
 
 public function destoryOrder($id){
-    $order=Order::destroy($id);
+    $order=$this->orderService->destroy($id);
     if ($order) {
         return redirect()->route('listorder')->with('success','تم حذف الطلبية');
     }

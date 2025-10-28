@@ -26,8 +26,9 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|string',
             'quantity' => 'required|numeric|max:255',
             'cost_price' => 'required|numeric',
-            'purchase_price' => 'required|numeric|max:255',
+            'purchase_price' => 'required | numeric|max:255',
              'brand' => 'required|string|max:255',
+             'image'=>'required',
              'parent' => '',
              'supplier' => ''
             //

@@ -38,9 +38,17 @@ function storeProduct(array $data,$image) {
 public function updateProduct(array $data, $id,$image)
 {
    $product= $this->productRepository->update($id);
+   $product->update($data);
    
    $this->uploadImage($product,$image);
    return $product;
+}
+
+public function updateSupplierProduct($request,$product){
+   if ($request->filled('supplier')) {
+            $product->suppliers()->sync($request->supplier);
+        }
+        return ;
 }
 
 

@@ -17,15 +17,21 @@ class productController extends Controller
     $this->productServices = $productServices;
 
   }
+
+
      public function index(){
         return view('admin.addProduct');
     }
+
+
       public function show(){
 
         $product =$this->productServices->getAllProducts();
         return view('admin.listProduct')->with('product',$product);
 
     }
+
+
     public function store(StoreProductRequest $request)
 {
   
@@ -44,8 +50,10 @@ class productController extends Controller
     return response()->json($product);
 }
 
+
+
   public function editProduct( $id)
-{
+      {
   $product = $this->productServices->getProductById($id);
   return view('admin.updateProduct')->with('product',$product);
 
@@ -65,7 +73,10 @@ public function update(StoreProductRequest $request, $id)
         $validated['category_id'] = $request->parent; 
        $product =$this->productServices->updateProduct($validated,$id,$request->file('image')); // تم إزالة withTrashed()
 
-     $product->update();
+     
+
+     //$this->productServices->updateSupplierProduct($request,$product);
+
      
         if ($request->filled('supplier')) {
             $product->suppliers()->sync($request->supplier);
