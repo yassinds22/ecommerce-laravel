@@ -1,26 +1,35 @@
-# متجر إلكتروني - Laravel
+# Ecommerce Laravel
 
-**هذا المشروع عبارة عن موقع متجر إلكتروني متكامل مبني باستخدام Laravel.**  
-يتيح للمستخدمين تصفح الأصناف والمنتجات والموردين، إضافة منتج واحد أو عدة منتجات إلى السلة، وتقديم الطلبات ومتابعتها بسهولة.  
-كما يحتوي على لوحة إدارة للمسؤول لإدارة المنتجات، الأصناف، الموردين، والطلبات، وتصميم متجاوب يعمل على أجهزة الكمبيوتر والموبايل.
+<p align="center">
+  <a href="https://laravel.com" target="_blank">
+    <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="300" alt="Laravel Logo">
+  </a>
+</p>
 
----
+[![Build Status](https://github.com/laravel/framework/workflows/tests/badge.svg)](https://github.com/laravel/framework/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## المميزات
-
-- **الأصناف والمنتجات:** تنظيم المنتجات ضمن أصناف لتسهيل التصفح والعثور على ما يحتاجه المستخدم بسرعة.  
-- **إدارة الموردين:** إضافة وإدارة الموردين للمنتجات بشكل سهل ومرن.  
-- **نظام السلة:** إمكانية إضافة منتج واحد أو عدة منتجات إلى السلة قبل إتمام عملية الشراء.  
-- **إدارة الطلبات:** تقديم الطلبات ومتابعتها بكفاءة، مع إمكانية تعديل حالة الطلبات عند الحاجة.  
-- **تسجيل دخول المستخدمين:** أدوار مختلفة للمسؤول (Admin) والعملاء (Customer) مع صلاحيات محددة لكل دور.  
-- **لوحة الإدارة:** إدارة كاملة للمنتجات، الأصناف، الموردين، والطلبات بطريقة منظمة وسهلة.  
-- **تصميم متجاوب:** واجهة الموقع تعمل بشكل ممتاز على أجهزة الكمبيوتر والموبايل لضمان تجربة مستخدم سلسة.
+**A fully-featured e-commerce platform built with Laravel.**  
+Users can browse categories, products, and suppliers, add single or multiple products to the cart, and place orders efficiently.  
+Admin users can manage products, categories, suppliers, and orders. The application has a responsive design for desktop and mobile.
 
 ---
 
-## التثبيت وتشغيل المشروع
+## Features
 
-1. **نسخ المشروع**
+- **Categories & Products:** Organize products into categories for easy browsing.  
+- **Suppliers Management:** Add and manage suppliers for your products.  
+- **Cart System:** Add one or multiple products to your cart.  
+- **Order Management:** Place and track orders efficiently.  
+- **User Authentication:** Admin and Customer roles.  
+- **Admin Panel:** Manage products, categories, suppliers, and orders.  
+- **Responsive Design:** Works perfectly on desktop and mobile devices.
+
+---
+
+## Installation
+
+1. **Clone the repository**
 ```bash
 git clone https://github.com/yassinds22/ecommerce-laravel.git
 cd ecommerce-laravel
