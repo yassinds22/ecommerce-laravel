@@ -4,15 +4,24 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable,HasApiTokens;
 
     // يمكنك هنا تحديد الخصائص المسموحة
-    protected $fillable = [
-        'name', 'email', 'password', 'number', 'address',
-    ];
+   protected $fillable = [
+    'name',
+    'email',
+    'number',
+    'address',
+    'cantry',
+    'city',
+    'street',
+    'usertype',
+];
+
 
     // لإخفاء الحقول الحساسة عند تحويلها لـ JSON
     protected $hidden = [
