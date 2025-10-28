@@ -33,3 +33,8 @@ Admin users can manage products, categories, suppliers, and orders. The applicat
 ```bash
 git clone https://github.com/yassinds22/ecommerce-laravel.git
 cd ecommerce-laravel
+
+2. **Clone the repository**
+```bash
+git clone https://github.com/yassinds22/ecommerce-laravel.git
+cd ecommerce-laravel
