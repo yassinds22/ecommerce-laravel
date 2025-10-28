@@ -23,3 +23,9 @@ This project allows users to browse categories, products, and suppliers, add mul
 ```bash
 git clone https://github.com/yassinds22/ecommerce-laravel.git
 cd ecommerce-laravel
+
+
+---
+##Install PHP dependencies
+
+2. **composer install**
