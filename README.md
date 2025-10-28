@@ -1,25 +1,26 @@
-# Ecommerce Laravel
+# متجر إلكتروني - Laravel
 
-A fully-featured e-commerce platform built with **Laravel**.  
-This project allows users to browse categories, products, and suppliers, add multiple products to the cart, and place orders easily.
-
----
-
-## Features
-
-- **Categories & Products:** Organize products into categories for easy browsing.
-- **Suppliers Management:** Add and manage suppliers for your products.
-- **Cart System:** Add one or multiple products to your cart.
-- **Order Management:** Place and track orders efficiently.
-- **User Authentication:** Admin and Customer roles.
-- **Admin Panel:** Manage products, categories, suppliers, and orders.
-- **Responsive Design:** Works on desktop and mobile devices.
+**هذا المشروع عبارة عن موقع متجر إلكتروني متكامل مبني باستخدام Laravel.**  
+يتيح للمستخدمين تصفح الأصناف والمنتجات والموردين، إضافة منتج واحد أو عدة منتجات إلى السلة، وتقديم الطلبات ومتابعتها بسهولة.  
+كما يحتوي على لوحة إدارة للمسؤول لإدارة المنتجات، الأصناف، الموردين، والطلبات، وتصميم متجاوب يعمل على أجهزة الكمبيوتر والموبايل.
 
 ---
 
-## Installation
+## المميزات
 
-1. **Clone the repository**
+- **الأصناف والمنتجات:** تنظيم المنتجات ضمن أصناف لتسهيل التصفح والعثور على ما يحتاجه المستخدم بسرعة.  
+- **إدارة الموردين:** إضافة وإدارة الموردين للمنتجات بشكل سهل ومرن.  
+- **نظام السلة:** إمكانية إضافة منتج واحد أو عدة منتجات إلى السلة قبل إتمام عملية الشراء.  
+- **إدارة الطلبات:** تقديم الطلبات ومتابعتها بكفاءة، مع إمكانية تعديل حالة الطلبات عند الحاجة.  
+- **تسجيل دخول المستخدمين:** أدوار مختلفة للمسؤول (Admin) والعملاء (Customer) مع صلاحيات محددة لكل دور.  
+- **لوحة الإدارة:** إدارة كاملة للمنتجات، الأصناف، الموردين، والطلبات بطريقة منظمة وسهلة.  
+- **تصميم متجاوب:** واجهة الموقع تعمل بشكل ممتاز على أجهزة الكمبيوتر والموبايل لضمان تجربة مستخدم سلسة.
+
+---
+
+## التثبيت وتشغيل المشروع
+
+1. **نسخ المشروع**
 ```bash
 git clone https://github.com/yassinds22/ecommerce-laravel.git
 cd ecommerce-laravel
