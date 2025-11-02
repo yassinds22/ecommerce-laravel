@@ -13,7 +13,7 @@ class ProductServices
         $this->productRepository = $productRepository;
 
     }
-    function getAllProducts() {
+    public function getAllProducts() {
         return $this->productRepository->getAll();
     }
 
@@ -21,18 +21,22 @@ function getProductById($id) {
     return $this->productRepository->getById($id);
 }
 
-function storeProduct(array $data,$image) {
-    $product= $this->productRepository->create($data);
+public function storeProduct(array $data, $image) {
+    try {
+        $product = $this->productRepository->create($data);
+        
+        if ($image) {
+            $this->uploadImage($product, $image);
+        }
 
-
-
-    $this->uploadImage($product,$image);
-
-    return $product;
-
-
-    
+        return $product;
+    } catch (\Exception $e) {
+      
+        throw $e;
+    }
 }
+
+
 
 
 public function updateProduct(array $data, $id,$image)
@@ -54,10 +58,15 @@ public function updateSupplierProduct($request,$product){
 
 protected function uploadImage(Product $product, $image)
 {
-    if ($product->hasMedia('images')) {
-        $product->clearMediaCollection('images');
+    try {
+        if ($image) {
+            $product->addMedia($image)
+                   ->toMediaCollection('images');
+        }
+    } catch (\Exception $e) {
+
+        throw $e;
     }
-    $product->addMedia($image)->toMediaCollection('images');
 }
 
 

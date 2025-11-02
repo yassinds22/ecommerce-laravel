@@ -16,7 +16,7 @@ class CategoryRepositry
 
 
     public function getAll(){
-        return $this->catory->all();
+        return $this->catory::with('media')->get();
 
     }
 public function getById($id){

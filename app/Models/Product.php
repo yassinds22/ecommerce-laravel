@@ -14,23 +14,22 @@ class Product extends Model implements HasMedia
 {
    use InteractsWithMedia;
    //  protected $guarded=['id'];
-    protected $fillable = [
-        'name', 
-        'description',
-         'short_description', 
-         'quantity',
-          'cost_price',
-           'purchase_price', 
-          'old_price', 'new_price',
-         'favorite',
-          'brand', 
-        'is_active',
-         'view',
-         'catgorey_id',
-         'user_id',
-       
-       
-    ] ;
+   protected $fillable = [
+    'name', 
+    'description',
+    'short_description', 
+    'quantity',
+    'cost_price',
+    'purchase_price', 
+    'old_price', 
+    'new_price',
+    'favorite',
+    'brand', 
+    'is_active',
+    'view',
+    'catgorey_id', // تغيير من catgorey_id إلى category_id
+    'user_id',
+];
 
 
      // 1. تعريف التحويلات (اختياري)

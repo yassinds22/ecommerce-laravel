@@ -15,6 +15,11 @@ class Catgory extends Model implements HasMedia
         'parint', 
         'user_id'
     ];
+        public function getImageAttribute()
+    {
+        $media = $this->getFirstMedia('imagesCat');
+        return $media ? $media->getUrl() : null;
+    }
 
      public function product(){
         return $this->hasMany(Product::class,'catgorey_id');

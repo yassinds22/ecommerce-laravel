@@ -1,7 +1,7 @@
 <?php 
 namespace App\Services;
 
-use App\Models\Catgory;
+
 use App\Models\Supplier;
 use App\Repositories\SupplierRepository;
 
@@ -21,7 +21,7 @@ class SupplierService
           
     }
 
-    public function showSupplier(){
+    public function getAll(){
         return $this->supplierRepository->getAll();
     }
 

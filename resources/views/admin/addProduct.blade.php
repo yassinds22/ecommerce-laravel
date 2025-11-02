@@ -26,9 +26,9 @@
 
                             <div class="form-group col-md-3">
                                 <label class="col-form-label">صنف المنتج</label>
-                                <select name="parent" class="form-control" id="categorySelect">
-                                    @php $cat = \App\Models\Catgory::all(); @endphp
-                                    @foreach($cat as $cat)
+                                <select name="catgorey_id" class="form-control" id="categorySelect">
+                                  
+                                    @foreach($allCat as $cat)
                                         <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                                     @endforeach
                                 </select>
@@ -38,8 +38,8 @@
                             <div class="form-group col-md-3">
                                 <label class="col-form-label">اسم المورد</label>
                                 <select name="supplier" class="form-control" id="supplierSelected">
-                                    @php $suppliers = \App\Models\Supplier::all(); @endphp
-                                    @foreach($suppliers as $supplier)
+                               
+                                    @foreach($supplir as $supplier)
                                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                     @endforeach
                                 </select>

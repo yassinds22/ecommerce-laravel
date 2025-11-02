@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('number')->unique()->nullable();
-            $table->string('cantry')->nullable();
-            $table->string('city')->nullable();
+             $table->foreignId('province_id')->nullable()->constrained('provinces')->onDelete('set null');
             $table->string('street')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
